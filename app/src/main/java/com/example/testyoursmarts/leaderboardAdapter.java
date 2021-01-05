@@ -1,24 +1,19 @@
 package com.example.testyoursmarts;
 
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 import java.util.List;
 
-public class CategoryAdapter extends BaseAdapter {
+public class leaderboardAdapter extends BaseAdapter {
+    private List<leaderboardModel> cat_List;
 
-private List<CategoryModel> cat_List;
-
-    public CategoryAdapter(List<CategoryModel> cat_List) {
+    public leaderboardAdapter(List<leaderboardModel> cat_List) {
         this.cat_List = cat_List;
     }
-
     @Override
     public int getCount() {
         return cat_List.size();
@@ -37,6 +32,8 @@ private List<CategoryModel> cat_List;
     @Override
     public View getView(final int i, View view, ViewGroup viewGroup) {
         View myView;
+
+
         if(view == null)
         {
             myView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.cat_item_layout,viewGroup, false);
@@ -48,10 +45,10 @@ private List<CategoryModel> cat_List;
 
 
         TextView catName = myView.findViewById(R.id.cat_name);
-        TextView noOfTest = myView.findViewById(R.id.no_of_tests);
+
 
         catName.setText(cat_List.get(i).getName());
-        noOfTest.setText(String.valueOf(cat_List.get(i).getNoOfTest()) + " Tests");
+
 
         return myView;
     }

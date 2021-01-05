@@ -11,14 +11,13 @@ import org.w3c.dom.Text;
 
 import java.util.List;
 
-public class CategoryAdapter extends BaseAdapter {
+public class testAdapter extends BaseAdapter {
 
-private List<CategoryModel> cat_List;
+    private List<TestModel> cat_List;
 
-    public CategoryAdapter(List<CategoryModel> cat_List) {
+    public testAdapter(List<TestModel> cat_List) {
         this.cat_List = cat_List;
     }
-
     @Override
     public int getCount() {
         return cat_List.size();
@@ -36,15 +35,17 @@ private List<CategoryModel> cat_List;
 
     @Override
     public View getView(final int i, View view, ViewGroup viewGroup) {
-        View myView;
-        if(view == null)
-        {
-            myView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.cat_item_layout,viewGroup, false);
-        }
-        else
-        {
-            myView = view;
-        }
+            View myView;
+
+
+            if(view == null)
+            {
+                myView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.cat_item_layout,viewGroup, false);
+            }
+            else
+            {
+                myView = view;
+            }
 
 
         TextView catName = myView.findViewById(R.id.cat_name);
