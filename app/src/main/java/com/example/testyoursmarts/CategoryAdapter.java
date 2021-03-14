@@ -48,10 +48,10 @@ private List<CategoryModel> cat_List;
 
 
         TextView catName = myView.findViewById(R.id.cat_name);
-        TextView noOfTest = myView.findViewById(R.id.no_of_tests);
+
 
         catName.setText(cat_List.get(i).getName());
-        noOfTest.setText(String.valueOf(cat_List.get(i).getNoOfTest()) + " Tests");
+
 
         return myView;
     }

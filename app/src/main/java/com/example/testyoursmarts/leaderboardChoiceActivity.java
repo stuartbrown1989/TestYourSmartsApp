@@ -7,6 +7,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Patterns;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -21,6 +22,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,6 +50,11 @@ public class leaderboardChoiceActivity extends AppCompatActivity {
                             startActivity(intentLeaderboard);
                             return true;
 
+                        case R.id.nav_account:
+                            Intent intentAccount = new Intent(leaderboardChoiceActivity.this, account_page.class);
+                            startActivity(intentAccount);
+                            return true;
+
                         case R.id.nav_logout:
 
                             FirebaseAuth.getInstance().signOut();
@@ -67,7 +74,6 @@ public class leaderboardChoiceActivity extends AppCompatActivity {
                                 }
                             });
                     }
-
                     return false;
                 }
 
@@ -82,11 +88,11 @@ public class leaderboardChoiceActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Test Your Smarts: LeaderBoards");
         bottomNavigationView = findViewById(R.id.top_nav_bar);
         main_frame = findViewById(R.id.main_frame);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(onNavigationItemReselectedListener);
-
         catView = findViewById(R.id.cat_Gridleaderboard);
         loadCategories();
         leaderboardAdapter adapter = new leaderboardAdapter(catList);
@@ -118,12 +124,10 @@ public class leaderboardChoiceActivity extends AppCompatActivity {
                     Intent intentTopicQuiz = new Intent(leaderboardChoiceActivity.this, leaderboardTopicQuiz.class);
                     startActivity(intentTopicQuiz);
                 }
-
             }
         });
 
     }
-
 
     private void loadCategories()
     {
@@ -132,6 +136,5 @@ public class leaderboardChoiceActivity extends AppCompatActivity {
         catList.add(new leaderboardModel("2", "Picture Quiz"));
         catList.add(new leaderboardModel("3", "Speed Run Quiz"));
         catList.add(new leaderboardModel("4", "Topic Quiz"));
-
     }
 }

@@ -54,7 +54,7 @@ public class signupActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
-
+        //Initializing Variables
         textName = findViewById(R.id.edittext_username);
         textEmail = findViewById(R.id.text_emailID);
         textPassword = findViewById(R.id.text_password);
@@ -69,7 +69,6 @@ public class signupActivity extends AppCompatActivity {
             }
         });
         dialogText = findViewById(R.id.text_dialog);
-
         progressDialog = new Dialog(signupActivity.this);
         progressDialog.setContentView(R.layout.dialog_layout);
         progressDialog.setCancelable(false);
@@ -77,6 +76,7 @@ public class signupActivity extends AppCompatActivity {
         dialogText = progressDialog.findViewById(R.id.text_dialog);
         dialogText.setText("Registering User... ");
 
+        //Signup Button
         buttonSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -84,8 +84,6 @@ public class signupActivity extends AppCompatActivity {
                 {
                     signupNewUser();
                 }
-
-
             }
         });
 
@@ -124,7 +122,6 @@ public class signupActivity extends AppCompatActivity {
             textConfirmPassword.setError("Enter confirm Password");
             return false;
         }
-
         if(passString.compareTo(confirmPassString) != 0)
         {
             Toast.makeText(signupActivity.this, "Password and confirm password do not match", Toast.LENGTH_SHORT).show();
@@ -139,7 +136,6 @@ public class signupActivity extends AppCompatActivity {
         return true;
     }
 
-
     private void signupNewUser()
     {
         progressDialog.show();
@@ -151,7 +147,6 @@ public class signupActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             Toast.makeText(signupActivity.this, "Signup Successful ", Toast.LENGTH_SHORT).show();
-
                             //Creating new User data to Firestore
                             dbQuery.createUserData(emailString, nameString, new myCompleteListener() {
                                 @Override
@@ -160,7 +155,6 @@ public class signupActivity extends AppCompatActivity {
                                     Intent intent = new Intent(signupActivity.this, MainActivity.class);
                                     startActivity(intent);
                                     signupActivity.this.finish();
-
                                 }
 
                                 @Override
@@ -170,17 +164,12 @@ public class signupActivity extends AppCompatActivity {
                                     progressDialog.dismiss();
                                 }
                             });
-
-
-
                         } else {
                             // If sign in fails, display a message to the user.
                             progressDialog.dismiss();
                             Toast.makeText(signupActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                         }
-
-
                     }
                 });
     }

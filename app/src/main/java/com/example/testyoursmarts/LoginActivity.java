@@ -92,6 +92,14 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        forgotPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentForgotPass = new Intent(LoginActivity.this, forgotpassword.class);
+                startActivity(intentForgotPass);
+            }
+        });
+
         //Button to signup via google
         googleSignInButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -165,7 +173,7 @@ public class LoginActivity extends AppCompatActivity {
                             Toast.makeText(LoginActivity.this, "Login Success", Toast.LENGTH_SHORT).show();
                             progressDialog.dismiss();
                             FirebaseUser user = mAuth.getCurrentUser();
-
+                            user.isAnonymous();
                             Intent intent = new Intent(LoginActivity.this,MainActivity.class);
                             startActivity(intent);
                             finish();

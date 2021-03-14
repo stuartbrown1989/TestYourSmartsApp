@@ -11,6 +11,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class SplashActivity extends AppCompatActivity {
@@ -51,6 +52,7 @@ private FirebaseAuth mAuth;
                else
                {
                    Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
+
                    startActivity(intent);
                    SplashActivity.this.finish();
                }

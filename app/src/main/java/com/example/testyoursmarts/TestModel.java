@@ -1,16 +1,21 @@
 package com.example.testyoursmarts;
 
+import android.graphics.drawable.Drawable;
+import android.widget.ImageView;
+
 public class TestModel {
 
     private String docID;
     private String name;
     private int noOfTest;
+    private ImageView image;
+    private Drawable image1;
 
 
-    public TestModel(String docID, String name, int noOfTest) {
+    public TestModel(String docID, String name) {
         this.docID = docID;
         this.name = name;
-        this.noOfTest = noOfTest;
+
     }
 
     public String getDocID() {
@@ -29,11 +34,12 @@ public class TestModel {
         this.name = name;
     }
 
-    public int getNoOfTest() {
-        return noOfTest;
+    public Drawable getImage() {
+        return image1;
     }
 
-    public void setNoOfTest(int noOfTest) {
-        this.noOfTest = noOfTest;
+    public void setImage(Drawable image1) {
+        this.image1 = image1;
     }
+
 }

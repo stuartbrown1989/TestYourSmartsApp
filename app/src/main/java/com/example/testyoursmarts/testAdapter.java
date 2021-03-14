@@ -1,10 +1,12 @@
 package com.example.testyoursmarts;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.w3c.dom.Text;
@@ -33,6 +35,8 @@ public class testAdapter extends BaseAdapter {
         return 0;
     }
 
+
+
     @Override
     public View getView(final int i, View view, ViewGroup viewGroup) {
             View myView;
@@ -49,10 +53,11 @@ public class testAdapter extends BaseAdapter {
 
 
         TextView catName = myView.findViewById(R.id.cat_name);
-        TextView noOfTest = myView.findViewById(R.id.no_of_tests);
+
+
 
         catName.setText(cat_List.get(i).getName());
-        noOfTest.setText(String.valueOf(cat_List.get(i).getNoOfTest()) + " Tests");
+
 
         return myView;
     }
