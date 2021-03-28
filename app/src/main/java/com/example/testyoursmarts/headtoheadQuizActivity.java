@@ -689,7 +689,7 @@ public class headtoheadQuizActivity extends AppCompatActivity {
         }
         else{
             whosTurn.setBackgroundColor(Color.RED);
-            whosTurn.setText("Who's Turn?\nGUEST");
+            whosTurn.setText("Who's Turn?\nPlayer 2");
         }
             //If current question number is less than total number of questions, keep going, otherwise finish
         if (questionCount < questionTotal) {
@@ -818,6 +818,7 @@ public class headtoheadQuizActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     Intent intent = new Intent(headtoheadQuizActivity.this, resultPageActivity.class);
                     intent.putExtra("SCORE", userScore);
+                    intent.putExtra("QUIZ", "Head to Head");
                     intent.putExtra("GUESTSCORE", guestScore);
                     startActivity(intent);
                     g_question_list.clear();

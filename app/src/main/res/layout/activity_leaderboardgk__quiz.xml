@@ -31,6 +31,60 @@
     </TextView>
 
     <TextView
+        android:id="@+id/gk_usernameText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:text="Username"
+        app:layout_constraintBottom_toTopOf="@id/gkleader_leaderboard_view_username"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:textStyle="bold"
+        >
+
+    </TextView>
+
+    <TextView
+        android:id="@+id/gk_score_difficutly_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="8dp"
+        android:text="Score/Difficulty"
+        app:layout_constraintBottom_toTopOf="@id/gkleader_leaderboard_view_score"
+        app:layout_constraintRight_toRightOf="parent"
+        android:textStyle="bold"
+        >
+    </TextView>
+
+    <TextView
+        android:id="@+id/gkleader_leaderboard_view_username"
+        android:layout_width="wrap_content"
+        android:layout_height="450dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="32dp"
+        android:scrollbarAlwaysDrawHorizontalTrack="true"
+        android:scrollbarStyle="outsideInset"
+        android:scrollbars="vertical"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_leaderboard">
+
+    </TextView>
+
+    <TextView
+        android:id="@+id/gkleader_leaderboard_view_score"
+        android:layout_width="wrap_content"
+        android:layout_height="450dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginRight="8dp"
+        android:scrollbarAlwaysDrawHorizontalTrack="true"
+        android:scrollbarStyle="outsideInset"
+        android:scrollbars="vertical"
+        android:textAlignment="viewEnd"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_leaderboard">
+
+    </TextView>
+
+    <TextView
         android:id="@+id/text_leaderboard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

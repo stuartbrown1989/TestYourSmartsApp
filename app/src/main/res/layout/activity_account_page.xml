@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".gkQuizActivity"
+    android:scrollbars="vertical"
+
+    >
+
+    <include
+        android:id="@+id/include"
+        layout="@layout/app_bar_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="-73dp" />
+
+
+    <TextView
+        android:id="@+id/AccountPage_Header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="130dp"
+        android:text="Statistics"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:textAlignment="center"
+        app:layout_constraintTop_toTopOf="parent"
+        android:textColor="@color/colorPrimary"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        >
+    </TextView>
+
+    <Spinner
+        android:id="@+id/spinner_statistics"
+        style="@android:style/Widget.Spinner.DropDown"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:clickable="true"
+        android:dropDownWidth="wrap_content"
+        android:focusable="true"
+        android:spinnerMode="dropdown"
+        android:textAlignment="center"
+        app:layout_constraintTop_toBottomOf="@id/AccountPage_Header"
+        tools:layout_editor_absoluteX="80dp" />
+
+    <TextView
+        android:id="@+id/account_easyHeader"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="4dp"
+        android:layout_marginTop="32dp"
+        android:text="Easy Difficulty:"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/spinner_statistics"></TextView>
+
+    <TextView
+        android:id="@+id/account_easy_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="32dp"
+        android:text="1"
+        app:layout_constraintLeft_toRightOf="@id/account_easyHeader"
+        app:layout_constraintTop_toBottomOf="@id/spinner_statistics"></TextView>
+
+    <TextView
+        android:id="@+id/account_MediumHeader"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="4dp"
+        android:layout_marginTop="8dp"
+        android:text="Medium Difficulty: "
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/account_easyHeader"></TextView>
+
+    <TextView
+        android:id="@+id/account_medium_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:text="1"
+        app:layout_constraintLeft_toRightOf="@id/account_MediumHeader"
+        app:layout_constraintTop_toBottomOf="@id/account_easy_value"></TextView>
+
+    <TextView
+        android:id="@+id/account_HardHeader"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="4dp"
+        android:layout_marginTop="8dp"
+        android:text="Hard Difficulty"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/account_MediumHeader"></TextView>
+
+    <TextView
+        android:id="@+id/account_hard_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:text="1"
+        app:layout_constraintLeft_toRightOf="@id/account_HardHeader"
+        app:layout_constraintTop_toBottomOf="@id/account_medium_value"></TextView>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Average time to answer Questions"
+        app:layout_constraintTop_toBottomOf="@id/spinner_statistics"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:textAlignment="center"
+        android:textStyle="bold"
+        >
+
+    </TextView>
+    <Button
+    android:id="@+id/write_Easyaverage"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:layout_constraintLeft_toLeftOf="parent"
+    app:layout_constraintBottom_toTopOf="@id/write_Mediumaverage"
+    android:text="Write Easy"
+        android:visibility="invisible"
+    >
+
+</Button>
+
+    <Button
+        android:id="@+id/write_Mediumaverage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/write_Hardaverage"
+        android:text="Write Medium"
+        android:visibility="invisible"
+        >
+
+    </Button>
+
+    <Button
+        android:id="@+id/write_Hardaverage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="Write Hard"
+        android:visibility="invisible"
+        >
+
+    </Button>
+
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/pictureQuiz_constraint"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".pictureQuizActivity">
-
+    tools:context=".geographyQuizActivity">
 
     <include
         android:id="@+id/include"
@@ -16,100 +16,168 @@
         tools:layout_editor_absoluteY="-73dp" />
 
 
+    <ImageView
+        android:id="@+id/pictureQ_image_view"
+        android:layout_width="300dp"
+        android:layout_height="200dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:layout_marginBottom="50dp"
+        android:adjustViewBounds="true"
+
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toTopOf="@id/pictureQ_click_image"
+        app:layout_constraintLeft_toLeftOf="parent"
+
+        app:layout_constraintRight_toRightOf="parent">
+
+
+    </ImageView>
+
     <TextView
-        android:id="@+id/text_view_new_score"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/text_view_question_count"
-
-        android:layout_marginEnd="180dp"
-
-        android:text="Score: 0"
-        android:textColor="@android:color/black"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/text_view_question_count" />
-
-    <TextView
+        android:id="@+id/PictureQtext_view_new_score"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Picture Quiz"
-        app:layout_constraintBottom_toTopOf="@+id/text_view_new_score"
-        app:layout_constraintStart_toStartOf="parent"
-        android:textColor="@color/colorPrimary"
-        android:textSize="20sp"
+        android:layout_below="@id/PictureQtext_view_question_count"
+        android:text="Score: 0"
         android:textAlignment="center"
-        android:layout_marginBottom="15dp"
-        >
+        android:textStyle="bold"
+        android:textColor="@android:color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/PictureQtext_view_timer" />
 
 
-    </TextView>
     <TextView
-        android:id="@+id/text_view_question_count"
+        android:id="@+id/PictureQtext_view_question_count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
         android:text="Question: 1/x"
         android:textColor="@android:color/black"
-        app:layout_constraintBottom_toTopOf="@+id/text_view_question"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginRight="10dp"/>
+        app:layout_constraintTop_toBottomOf="@id/PictureQtext_view_timer"
+        tools:layout_editor_absoluteY="462dp" />
 
     <TextView
-        android:id="@+id/text_view_question"
+        android:id="@+id/PictureQtimeRemaining"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/text_view_new_score"
-        android:layout_marginBottom="450dp"
+        android:layout_marginTop="16dp"
+        android:text="Time Remaining"
+        android:textAlignment="center"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/PictureQ_difficulty" />
+
+    <TextView
+        android:id="@+id/PictureQ_difficulty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="323dp"
+        android:text="Difficulty"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/picture_timetoanswer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="100dp"
+        app:layout_constraintTop_toBottomOf="@id/PictureQ_difficulty"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:text="0"
+        android:visibility="invisible">
+    </TextView>
+
+    <TextView
+        android:id="@+id/pictureQ_click_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="150dp"
+        android:layout_marginRight="150dp"
+        android:text="CLICK IMAGE\n FOR FULLSCREEN"
+        android:textAlignment="center"
+        android:textColor="#040404"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/PictureQtimeRemaining"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"></TextView>
+
+    <TextView
+        android:id="@+id/PictureQtext_view_timer"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:text="15"
+        android:textAlignment="center"
+        android:textColor="@color/green"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/PictureQtimeRemaining" />
+
+    <TextView
+        android:id="@+id/PictureQtext_view_question"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/PictureQtext_view_new_score"
         android:gravity="center_horizontal"
         android:text="Questions Text"
         android:textAlignment="center"
+
         android:textColor="@android:color/black"
-
-
-        android:textSize="20sp"
-
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/PictureQtext_view_new_score"
+        tools:layout_editor_absoluteY="481dp" />
 
     <RadioGroup
         android:id="@+id/radio_group"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/text_view_question"
+        android:layout_below="@id/PictureQtext_view_question"
         android:layout_centerVertical="true"
-
-
         android:layout_marginStart="8dp"
-        android:layout_marginTop="32dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_view_question">
+        android:layout_marginBottom="12dp"
+
+        app:layout_constraintBottom_toTopOf="@id/PictureQbutton_confirm_next"
+        app:layout_constraintStart_toStartOf="parent">
 
 
         <RadioButton
             android:id="@+id/radio_button1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Option 1" />
+            android:text="Option 1"
+            android:textSize="15sp"
+            android:textStyle="bold" />
 
         <RadioButton
             android:id="@+id/radio_button2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Option 2"
-
-
-            />
+            android:textSize="15sp"
+            android:textStyle="bold" />
 
         <RadioButton
             android:id="@+id/radio_button3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Option 3" />
+            android:text="Option 3"
+            android:textSize="15sp"
+            android:textStyle="bold" />
 
         <RadioButton
             android:id="@+id/radio_button4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Option 4"
+            android:textSize="15sp"
+            android:textStyle="bold"
 
             />
 
@@ -117,13 +185,15 @@
     </RadioGroup>
 
     <Button
-        android:id="@+id/button_confirm_next"
-        android:layout_width="match_parent"
+        android:id="@+id/PictureQbutton_confirm_next"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:layout_marginEnd="110dp"
+        android:background="@drawable/round_start_quiz_button"
         android:text="Confirm"
-
-
+        android:textSize="20sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 

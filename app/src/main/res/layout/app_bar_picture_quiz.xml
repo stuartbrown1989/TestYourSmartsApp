@@ -20,11 +20,9 @@
             app:popupTheme="@style/AppTheme.PopupOverlay"
             app:titleTextColor="@color/colorPrimary" />
 
-
-
     </com.google.android.material.appbar.AppBarLayout>
 
-    <include layout="@layout/content_main" />
+    <include layout="@layout/content_picture_quiz" />
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

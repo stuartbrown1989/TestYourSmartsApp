@@ -15,63 +15,68 @@
         tools:layout_editor_absoluteY="-73dp" />
 
 
+
     <TextView
         android:id="@+id/text_view_new_score"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/text_view_question"
-
+        android:textAlignment="center"
         android:layout_marginTop="220dp"
-        android:layout_marginEnd="160dp"
+        android:textSize="15sp"
         android:text="Score: 0"
         android:textColor="@android:color/black"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/include" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+    <TextView
+        android:id="@+id/show_average"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/text_view_new_score"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:text="seconds"
+        android:textAlignment="center"
+        >
+
+    </TextView>
+
+    <TextView
+        android:id="@+id/result_quizID"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Quiz ID: "
+        android:textAlignment="center"
+        app:layout_constraintLeft_toLeftOf="parent"
+        tools:layout_editor_absoluteY="200dp"
+        app:layout_constraintTop_toBottomOf="@id/resultHeader">
+
+    </TextView>
 
 
     <TextView
-        android:id="@+id/text_view_username"
-        android:layout_width="wrap_content"
+        android:id="@+id/Resulttext_view_guest_score"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/text_view_question"
-
-        android:layout_marginTop="220dp"
-        android:layout_marginEnd="16dp"
-        android:text="User"
+        android:textAlignment="center"
         android:textColor="@android:color/black"
-        app:layout_constraintEnd_toStartOf="@+id/text_view_new_score"
-        app:layout_constraintTop_toTopOf="@+id/include" />
+        android:textSize="15sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text_view_guest" />
 
-    <TextView
-        android:id="@+id/text_view_guest_score"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/text_view_question"
-
-        android:layout_marginTop="248dp"
-        android:layout_marginEnd="160dp"
-        android:text="Score: 0"
-        android:textColor="@android:color/black"
-        android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/include" />
 
     <TextView
         android:id="@+id/text_view_guest"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/text_view_question"
-
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="19dp"
+        android:layout_marginTop="24dp"
         android:text="Guest"
         android:textColor="@android:color/black"
         android:visibility="invisible"
-        app:layout_constraintEnd_toStartOf="@+id/text_view_guest_score"
-        app:layout_constraintTop_toBottomOf="@+id/text_view_username" />
-
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text_view_new_score" />
 
     <TextView
+        android:id="@+id/resultHeader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="40dp"
@@ -90,28 +95,32 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/text_view_new_score"
-        android:layout_marginBottom="300dp"
+        android:layout_marginTop="32dp"
         android:gravity="center_horizontal"
         android:text="Well Done"
         android:textAlignment="center"
         android:textColor="@android:color/black"
-
-
         android:textSize="20sp"
-
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Resulttext_view_guest_score" />
 
     <Button
         android:id="@+id/button_playQuiz"
-        android:layout_width="match_parent"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:text="Play another Quiz"
+        android:layout_marginStart="110dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/round_start_quiz_button"
+        android:clickable="true"
+        android:focusable="true"
+        android:elevation="5dp"
+        android:translationZ="3dp"
+        android:text="PLAY ANOTHER QUIZ"
 
-
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        android:textSize="30sp"/>
 
 
 

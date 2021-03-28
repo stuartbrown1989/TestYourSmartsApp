@@ -1,15 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.testyoursmarts">
+
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        tools:node="replace" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
+        android:icon="@drawable/quiz"
+        android:label="Test Your Smarts"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".leaderboardTopicQuiz"></activity>
+        <activity android:name=".forgotpassword"></activity>
+        <activity android:name=".account_page" />
+        <activity android:name=".leaderboardTopicQuiz" />
         <activity android:name=".leaderboardSpeedrunQuiz" />
         <activity android:name=".leaderboardPictureQuiz" />
         <activity android:name=".leaderboardgk_Quiz" />
@@ -27,7 +35,6 @@
         <activity android:name=".gkQuizActivity" />
         <activity android:name=".confirmQuiz" />
         <activity android:name=".topicSelector" />
-        <activity android:name=".quizActivity" />
         <activity android:name=".signupActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".MainActivity" />

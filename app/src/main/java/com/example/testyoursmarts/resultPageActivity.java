@@ -40,7 +40,7 @@ public class resultPageActivity extends AppCompatActivity {
     private String userName;
     private FirebaseAuth mAuth;
     public static FirebaseFirestore g_firestore;
-    private TextView resultScore, GUESTSCORE, textViewUserName, quizName;
+    private TextView resultScore, GUESTSCORE, textViewUserName, quizName, whoWon;
     private Button btnQuizSelect;
     private AppBarConfiguration mAppBarConfiguration;
     private BottomNavigationView bottomNavigationView;
@@ -104,7 +104,7 @@ public class resultPageActivity extends AppCompatActivity {
         bottomNavigationView = findViewById(R.id.top_nav_bar);
         main_frame = findViewById(R.id.main_frame);
         btnQuizSelect = findViewById(R.id.button_playQuiz);
-
+        whoWon = findViewById(R.id.text_well_done);
         bottomNavigationView.setOnNavigationItemSelectedListener(onNavigationItemReselectedListener);
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -131,7 +131,7 @@ public class resultPageActivity extends AppCompatActivity {
                                     //If user is a Guest/Anonymously signed in
                                     if(userName == null)
                                     {
-                                        userName = "Guest";
+                                        userName = "Player 1";
                                     }
                                     Intent intent = getIntent();
                                     int scoreValue= intent.getIntExtra("SCORE", 0);
@@ -148,7 +148,20 @@ public class resultPageActivity extends AppCompatActivity {
                                         //As the Head to Head quiz is the only quiz that passes an actual value, it means its the only quiz that will show this
                                         if(guestScoreValue > -1)
                                         {
-                                        GUESTSCORE.setText("GUEST SCORE:\n" + Integer.toString(guestScoreValue));
+                                        GUESTSCORE.setText("Player 2:\n" +"SCORE: " + Integer.toString(guestScoreValue));
+                                        averageTime.setText("");
+                                            if(scoreValue > guestScoreValue)
+                                            {
+                                                whoWon.setText(userName + " Wins");
+                                            }
+                                            if(guestScoreValue > scoreValue)
+                                            {
+                                                whoWon.setText("Player 2 Wins");
+                                            }
+                                            if(guestScoreValue == scoreValue)
+                                            {
+                                                whoWon.setText("It's a Draw!");
+                                            }
                                         }
                                     //Otherwise show nothing
                                         else{

@@ -8,6 +8,43 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:55308517240:android:3ad0a953e852b42f51928d",
+        "android_client_info": {
+          "package_name": "com.example.safetyrulesassessment"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "55308517240-4mm3n3m71q2bulpjvj1f1nqv0kajlec9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.safetyrulesassessment",
+            "certificate_hash": "1b732e3608b3ba7b0d440fcc3a2aae1f296753be"
+          }
+        },
+        {
+          "client_id": "55308517240-k20frscarmjnjubincj63u5iksnmte1d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBpfi5xqR1KNtzidPhJKwr_S-C1Pks-czE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "55308517240-k20frscarmjnjubincj63u5iksnmte1d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:55308517240:android:71701fb36eca349451928d",
         "android_client_info": {
           "package_name": "com.example.testyoursmarts"

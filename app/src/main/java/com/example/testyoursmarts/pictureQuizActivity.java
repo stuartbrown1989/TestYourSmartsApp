@@ -92,7 +92,7 @@ public class pictureQuizActivity extends AppCompatActivity {
     //UserStats Variables
     private String gettime;
     private String guestLog = "Guest";
-    private TextView timetoanswer;
+    private TextView timetoanswer, clickingImageText;
     private double checkstoredaverage, calcNewAverage, calcNewTopicAverage;
     private Double checkstoredTopicAverage;
     private int addtime = 0;
@@ -176,6 +176,7 @@ public class pictureQuizActivity extends AppCompatActivity {
         //Initializing Variables
         timetoanswer = findViewById(R.id.picture_timetoanswer);
         pictureQuizLayout = findViewById(R.id.pictureQuiz_constraint);
+        clickingImageText = findViewById(R.id.pictureQ_click_image);
         pictureQuestion = findViewById(R.id.pictureQ_image_view);
         headerTimer = findViewById(R.id.PictureQtimeRemaining);
         changeImageView = findViewById(R.id.pictureQ_click_image);
@@ -334,8 +335,9 @@ public class pictureQuizActivity extends AppCompatActivity {
         ConstraintLayout constraintLayout = findViewById(R.id.pictureQuiz_constraint);
         ConstraintSet constraintSet = new ConstraintSet();
         constraintSet.clone(constraintLayout);
-        constraintSet.connect(R.id.pictureQ_image_view,ConstraintSet.LEFT, PARENT_ID,ConstraintSet.LEFT, 165);
-        constraintSet.connect(R.id.pictureQ_image_view,ConstraintSet.TOP, PARENT_ID, ConstraintSet.TOP, 320);
+        constraintSet.connect(R.id.pictureQ_image_view,ConstraintSet.LEFT, PARENT_ID,ConstraintSet.LEFT, 100);
+        constraintSet.connect(R.id.pictureQ_image_view,ConstraintSet.RIGHT, PARENT_ID,ConstraintSet.RIGHT, 100);
+        constraintSet.connect(R.id.pictureQ_image_view,ConstraintSet.BOTTOM, clickingImageText.getId() , ConstraintSet.TOP, 0);
         constraintSet.constrainHeight(R.id.pictureQ_image_view, 500);
         constraintSet.constrainWidth(R.id.pictureQ_image_view, 760);
 
@@ -377,8 +379,9 @@ public class pictureQuizActivity extends AppCompatActivity {
                     ConstraintLayout constraintLayout = findViewById(R.id.pictureQuiz_constraint);
                     ConstraintSet constraintSet = new ConstraintSet();
                     constraintSet.clone(constraintLayout);
-                    constraintSet.connect(R.id.pictureQ_image_view,ConstraintSet.LEFT, PARENT_ID,ConstraintSet.LEFT, 165);
-                    constraintSet.connect(R.id.pictureQ_image_view,ConstraintSet.TOP, PARENT_ID, ConstraintSet.TOP, 320);
+                    constraintSet.connect(R.id.pictureQ_image_view,ConstraintSet.LEFT, PARENT_ID,ConstraintSet.LEFT, 100);
+                    constraintSet.connect(R.id.pictureQ_image_view,ConstraintSet.RIGHT, PARENT_ID,ConstraintSet.RIGHT, 100);
+                    constraintSet.connect(R.id.pictureQ_image_view,ConstraintSet.BOTTOM, clickingImageText.getId() , ConstraintSet.TOP, 0);
                     constraintSet.constrainHeight(R.id.pictureQ_image_view, 500);
                     constraintSet.constrainWidth(R.id.pictureQ_image_view, 760);
                     constraintSet.applyTo(constraintLayout);

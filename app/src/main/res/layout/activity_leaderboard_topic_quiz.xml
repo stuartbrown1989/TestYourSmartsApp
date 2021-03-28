@@ -19,7 +19,7 @@
         android:id="@+id/text_leaderboardName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="150dp"
+        android:layout_marginTop="135dp"
         android:text="Topic Quiz"
         android:textAlignment="center"
         android:textColor="@color/colorPrimary"
@@ -30,6 +30,28 @@
 
     </TextView>
 
+
+
+        <Spinner
+            android:id="@+id/spinner_leaderboard_topic"
+            style="@android:style/Widget.Spinner.DropDown"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:clickable="true"
+            android:dropDownWidth="wrap_content"
+            android:focusable="true"
+            android:spinnerMode="dropdown"
+            android:textAlignment="center"
+            android:theme="@style/Platform.MaterialComponents.Light"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_leaderboard" />
+
+
+
     <TextView
         android:id="@+id/text_leaderboard"
         android:layout_width="match_parent"
@@ -37,13 +59,68 @@
         android:text="LeaderBoard"
         android:textAlignment="center"
         android:textColor="@color/colorPrimary"
-
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_leaderboardName">
 
 
     </TextView>
+
+    <TextView
+        android:id="@+id/Topicleader_leaderboard_view_username"
+        android:layout_width="wrap_content"
+        android:layout_height="450dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="32dp"
+        android:scrollbarAlwaysDrawHorizontalTrack="true"
+        android:scrollbarStyle="outsideInset"
+        android:scrollbars="vertical"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinner_leaderboard_topic">
+
+    </TextView>
+
+    <TextView
+        android:id="@+id/Topicleader_leaderboard_view_score"
+        android:layout_width="wrap_content"
+        android:layout_height="450dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginRight="8dp"
+        android:scrollbarAlwaysDrawHorizontalTrack="true"
+        android:scrollbarStyle="outsideInset"
+        android:scrollbars="vertical"
+        android:textAlignment="viewEnd"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinner_leaderboard_topic">
+
+    </TextView>
+
+    <TextView
+        android:id="@+id/topic_usernameText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:text="Username"
+        app:layout_constraintTop_toBottomOf="@id/spinner_leaderboard_topic"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:textStyle="bold"
+
+        >
+
+    </TextView>
+
+    <TextView
+        android:id="@+id/topic_score_difficutly_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="8dp"
+        android:text="Topic/Score/Difficulty"
+        app:layout_constraintTop_toBottomOf="@id/spinner_leaderboard_topic"
+        app:layout_constraintRight_toRightOf="parent"
+        android:textStyle="bold"
+        >
+    </TextView>
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

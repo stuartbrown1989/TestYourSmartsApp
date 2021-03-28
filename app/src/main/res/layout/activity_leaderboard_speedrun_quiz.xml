@@ -26,8 +26,6 @@
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-
-
     </TextView>
 
     <TextView
@@ -37,11 +35,62 @@
         android:text="LeaderBoard"
         android:textAlignment="center"
         android:textColor="@color/colorPrimary"
-
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_leaderboardName">
+    </TextView>
 
+    <TextView
+        android:id="@+id/gk_usernameText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:text="Username"
+        app:layout_constraintTop_toBottomOf= "@id/text_leaderboard"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:textStyle="bold"
+        >
+
+    </TextView>
+
+    <TextView
+        android:id="@+id/gk_score_difficutly_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="8dp"
+        android:text="Score/Difficulty"
+        app:layout_constraintTop_toBottomOf="@id/text_leaderboard"
+        app:layout_constraintRight_toRightOf="parent"
+        android:textStyle="bold"
+        >
+    </TextView>
+
+    <TextView
+        android:id="@+id/speedRunleader_leaderboard_view_username"
+        android:layout_width="wrap_content"
+        android:layout_height="450dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="32dp"
+        android:scrollbarAlwaysDrawHorizontalTrack="true"
+        android:scrollbarStyle="outsideInset"
+        android:scrollbars="vertical"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_leaderboard">
+
+    </TextView>
+
+    <TextView
+        android:id="@+id/speedRunleader_leaderboard_view_score"
+        android:layout_width="wrap_content"
+        android:layout_height="450dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginRight="8dp"
+        android:scrollbarAlwaysDrawHorizontalTrack="true"
+        android:scrollbarStyle="outsideInset"
+        android:scrollbars="vertical"
+        android:textAlignment="viewEnd"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_leaderboard">
 
     </TextView>
 

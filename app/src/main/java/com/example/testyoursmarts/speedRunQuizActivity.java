@@ -72,7 +72,7 @@ public class speedRunQuizActivity extends AppCompatActivity {
     private Dialog loadingDialog;
     private String checkUser, userName;
     private int checkscore;
-    private int setTime = 181;
+    private int setTime = 61;
     private TimerTask timetoanswertask = null;
     private TextView SRDifficulty, headertime;
     private TextView textViewQuestion;
@@ -111,16 +111,11 @@ public class speedRunQuizActivity extends AppCompatActivity {
 
                     switch (menuItem.getItemId()) {
                         case R.id.nav_home:
-                            g_question_list.clear();
-                            g_question_list.removeAll(Collections.emptyList());
-
                             Intent intentHome = new Intent(speedRunQuizActivity.this, MainActivity.class);
                             startActivity(intentHome);
                             return true;
 
                         case R.id.nav_leaderboard:
-                            g_question_list.clear();
-                            g_question_list.removeAll(Collections.emptyList());
                             Intent intentLeaderboard= new Intent(speedRunQuizActivity.this, leaderboardChoiceActivity.class);
                             startActivity(intentLeaderboard);
                             return true;

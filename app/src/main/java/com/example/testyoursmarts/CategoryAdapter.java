@@ -18,22 +18,18 @@ private List<CategoryModel> cat_List;
     public CategoryAdapter(List<CategoryModel> cat_List) {
         this.cat_List = cat_List;
     }
-
     @Override
     public int getCount() {
         return cat_List.size();
     }
-
     @Override
     public Object getItem(int position) {
         return null;
     }
-
     @Override
     public long getItemId(int position) {
         return 0;
     }
-
     @Override
     public View getView(final int i, View view, ViewGroup viewGroup) {
         View myView;
@@ -45,14 +41,8 @@ private List<CategoryModel> cat_List;
         {
             myView = view;
         }
-
-
         TextView catName = myView.findViewById(R.id.cat_name);
-
-
         catName.setText(cat_List.get(i).getName());
-
-
         return myView;
     }
 }

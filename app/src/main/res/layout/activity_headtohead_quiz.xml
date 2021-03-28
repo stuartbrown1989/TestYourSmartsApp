@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".headtoheadQuizActivity">
+    tools:context=".geographyQuizActivity">
 
     <include
         android:id="@+id/include"
@@ -14,101 +14,168 @@
         tools:layout_editor_absoluteX="0dp"
         tools:layout_editor_absoluteY="-73dp" />
 
-
     <TextView
-        android:id="@+id/text_view_new_score"
+        android:id="@+id/h2h_user_header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/text_view_question_count"
-
-        android:layout_marginEnd="180dp"
-
-        android:text="Score: 0"
-        android:textColor="@android:color/black"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/text_view_question_count" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Head to Head Quiz"
-        app:layout_constraintBottom_toTopOf="@+id/text_view_new_score"
-        app:layout_constraintStart_toStartOf="parent"
-        android:textColor="@color/colorPrimary"
-        android:textSize="20sp"
-        android:textAlignment="center"
-        android:layout_marginBottom="15dp"
-        >
-
+        android:text="Player 1"
+        app:layout_constraintBottom_toTopOf="@id/HeadtoHeadtext_view_user_score"
+        app:layout_constraintLeft_toLeftOf="parent">
 
     </TextView>
-    <TextView
-        android:id="@+id/text_view_question_count"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Question: 1/x"
-        android:textColor="@android:color/black"
-        app:layout_constraintBottom_toTopOf="@+id/text_view_question"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginRight="10dp"/>
 
     <TextView
-        android:id="@+id/text_view_question"
+        android:id="@+id/h2h_guest_header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="130dp"
+        android:text="Guest"
+        app:layout_constraintBottom_toTopOf="@id/HeadtoHeadtext_view_guest_score"
+        app:layout_constraintRight_toLeftOf="@id/HeadtoHeadtext_view_question_count">
+
+    </TextView>
+
+    <TextView
+        android:id="@+id/HeadtoHeadtext_view_user_score"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/HeadtoHeadtext_view_question_count"
+        android:layout_marginTop="24dp"
+        android:text="USER SCORE: 0"
+        android:textColor="@android:color/black"
+       app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/HeadtoHeadtext_view_timer" />
+
+    <TextView
+        android:id="@+id/HeadtoHeadtext_view_guest_score"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/HeadtoHeadtext_view_question_count"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="24dp"
+        android:text="GUEST SCORE: 0"
+        android:textColor="@android:color/black"
+        app:layout_constraintLeft_toRightOf="@+id/HeadtoHeadtext_view_user_score"
+        app:layout_constraintTop_toBottomOf="@id/HeadtoHeadtext_view_timer" />
+
+    <TextView
+        android:id="@+id/HeadtoHeadtext_view_question_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        android:text="Question: 1/x"
+        android:textColor="@android:color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/HeadtoHeadtext_view_timer"
+        tools:layout_editor_absoluteY="355dp" />
+
+    <TextView
+        android:id="@+id/HeadtoHeadtimeRemaining"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/text_view_new_score"
-        android:layout_marginBottom="450dp"
+        android:text="Time Remaining"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/HeadtoHead_difficulty"
+        tools:layout_editor_absoluteY="288dp" />
+
+    <TextView
+        android:id="@+id/headtohead_whosTurn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="Whos Turn"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/HeadtoHeadbutton_confirm_next"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <TextView
+        android:id="@+id/HeadtoHead_difficulty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="125dp"
+        android:text="Difficulty"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/HeadtoHeadtext_view_timer"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:text="15"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        android:textColor="@color/green"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/HeadtoHeadtimeRemaining"
+        tools:layout_editor_absoluteY="315dp" />
+
+    <TextView
+        android:id="@+id/HeadtoHeadtext_view_question"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/HeadtoHeadtext_view_user_score"
         android:gravity="center_horizontal"
         android:text="Questions Text"
         android:textAlignment="center"
         android:textColor="@android:color/black"
-
-
-        android:textSize="20sp"
-
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:textSize="22sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/HeadtoHeadtext_view_guest_score" />
 
     <RadioGroup
         android:id="@+id/radio_group"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/text_view_question"
+        android:layout_below="@id/HeadtoHeadtext_view_question"
         android:layout_centerVertical="true"
-
-
         android:layout_marginStart="8dp"
-        android:layout_marginTop="32dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_view_question">
+        android:layout_marginBottom="76dp"
+        app:layout_constraintBottom_toTopOf="@id/HeadtoHeadbutton_confirm_next"
+        app:layout_constraintStart_toStartOf="parent">
 
 
         <RadioButton
             android:id="@+id/radio_button1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Option 1" />
+            android:padding="5dp"
+            android:text="Option 1"
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
         <RadioButton
             android:id="@+id/radio_button2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:padding="5dp"
             android:text="Option 2"
-
-
-            />
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
         <RadioButton
             android:id="@+id/radio_button3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Option 3" />
+            android:padding="5dp"
+            android:text="Option 3"
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
         <RadioButton
             android:id="@+id/radio_button4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:padding="5dp"
             android:text="Option 4"
+            android:textSize="20sp"
+            android:textStyle="bold"
 
             />
 
@@ -116,17 +183,21 @@
     </RadioGroup>
 
     <Button
-        android:id="@+id/button_confirm_next"
-        android:layout_width="match_parent"
+        android:id="@+id/HeadtoHeadbutton_confirm_next"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:layout_marginEnd="110dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/round_start_quiz_button"
         android:text="Confirm"
-
-
+        android:textSize="25sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
 
     />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
