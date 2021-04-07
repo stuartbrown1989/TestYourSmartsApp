@@ -139,7 +139,6 @@ public class signupActivity extends AppCompatActivity {
     private void signupNewUser()
     {
         progressDialog.show();
-
         mAuth.createUserWithEmailAndPassword(emailString, passString)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -156,7 +155,6 @@ public class signupActivity extends AppCompatActivity {
                                     startActivity(intent);
                                     signupActivity.this.finish();
                                 }
-
                                 @Override
                                 public void onFailure()
                                 {

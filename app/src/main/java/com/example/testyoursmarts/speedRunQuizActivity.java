@@ -188,27 +188,12 @@ public class speedRunQuizActivity extends AppCompatActivity {
         g_question_list.clear();
         g_question_list.removeAll(Collections.emptyList());
 
-        //Start 3 minute timer
-
+        //Start 1 minute timer
+        newTimer();
+        newCheckTimer();
+        getEasySRQuestions();
         //Retrieving difficulty from Confirm Quiz page and setting appropriate questions + Setting Both Timers
-        switch (difficultSetting) {
-            case "Easy":
-                //Loading up questions
-                newTimer();
-                newCheckTimer();
-                getEasySRQuestions();
-                break;
-            case "Medium":
-                newTimer();
-                newCheckTimer();
-                getMediumSRQuestions();
-                break;
-            case "Hard":
-                newTimer();
-                newCheckTimer();
-                getHardSRQuestions();
-                break;
-        }
+
 
         //On Click listener for the Next button
         confirmNext.setOnClickListener(new View.OnClickListener(){
@@ -247,9 +232,11 @@ public class speedRunQuizActivity extends AppCompatActivity {
     //This function goes through all the collections under the document Easy and fills the array list
     private void getEasySRQuestions()
     {
+        Intent intent = getIntent();
+        String difficultSetting = intent.getStringExtra("Difficulty");
     //Locates and gets the Collection Questions from firestore and designates it to the Questions model class
 
-        g_firestore.collection("Questions").document("Easy").collection("GK")
+        g_firestore.collection("Questions").document(difficultSetting).collection("GK")
                 .get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
@@ -268,27 +255,7 @@ public class speedRunQuizActivity extends AppCompatActivity {
                         }
                     }
                 });
-        g_firestore.collection("Questions").document("Easy").collection("History")
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        //Get collection info and store it to the list
-                        for (DocumentSnapshot doc : queryDocumentSnapshots) {
-                            g_question_list.add(new questionsModel(
-                                    doc.getString("Question"),
-                                    doc.getString("Option_a"),
-                                    doc.getString("Option_b"),
-                                    doc.getString("Option_c"),
-                                    doc.getString("Option_d"),
-                                    Objects.requireNonNull(doc.getLong("Answer")).intValue()
-                            ));
-                            Collections.shuffle(g_question_list);
-                        }
-                    }
-                });
-
-        g_firestore.collection("Questions").document("Easy").collection("FilmTV")
+        g_firestore.collection("Questions").document(difficultSetting).collection("History")
                 .get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
@@ -308,7 +275,7 @@ public class speedRunQuizActivity extends AppCompatActivity {
                     }
                 });
 
-        g_firestore.collection("Questions").document("Easy").collection("Geography")
+        g_firestore.collection("Questions").document(difficultSetting).collection("FilmTV")
                 .get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
@@ -328,7 +295,7 @@ public class speedRunQuizActivity extends AppCompatActivity {
                     }
                 });
 
-        g_firestore.collection("Questions").document("Easy").collection("Music")
+        g_firestore.collection("Questions").document(difficultSetting).collection("Geography")
                 .get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
@@ -348,7 +315,7 @@ public class speedRunQuizActivity extends AppCompatActivity {
                     }
                 });
 
-        g_firestore.collection("Questions").document("Easy").collection("Science")
+        g_firestore.collection("Questions").document(difficultSetting).collection("Music")
                 .get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
@@ -368,7 +335,27 @@ public class speedRunQuizActivity extends AppCompatActivity {
                     }
                 });
 
-        g_firestore.collection("Questions").document("Easy").collection("Sports")
+        g_firestore.collection("Questions").document(difficultSetting).collection("Science")
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        //Get collection info and store it to the list
+                        for (DocumentSnapshot doc : queryDocumentSnapshots) {
+                            g_question_list.add(new questionsModel(
+                                    doc.getString("Question"),
+                                    doc.getString("Option_a"),
+                                    doc.getString("Option_b"),
+                                    doc.getString("Option_c"),
+                                    doc.getString("Option_d"),
+                                    Objects.requireNonNull(doc.getLong("Answer")).intValue()
+                            ));
+                            Collections.shuffle(g_question_list);
+                        }
+                    }
+                });
+
+        g_firestore.collection("Questions").document(difficultSetting).collection("Sports")
                 .get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
@@ -391,303 +378,7 @@ public class speedRunQuizActivity extends AppCompatActivity {
                 });
     }
 
-    //This function goes through all the collections under the document Medium and fills the array list
-    private void getMediumSRQuestions()
-    {
-//Locates and gets the Collection Questions from firestore and designates it to the Questions model class
-        questionList = new ArrayList<>();
-        g_firestore.collection("Questions").document("Medium").collection("GK")
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        //Get collection info and store it to the list
-                        for (DocumentSnapshot doc : queryDocumentSnapshots) {
-                            g_question_list.add(new questionsModel(
-                                    doc.getString("Question"),
-                                    doc.getString("Option_a"),
-                                    doc.getString("Option_b"),
-                                    doc.getString("Option_c"),
-                                    doc.getString("Option_d"),
-                                    Objects.requireNonNull(doc.getLong("Answer")).intValue()
-                            ));
-                            Collections.shuffle(g_question_list);
-                        }
-                    }
-                });
 
-        g_firestore.collection("Questions").document("Medium").collection("History")
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        //Get collection info and store it to the list
-                        for (DocumentSnapshot doc : queryDocumentSnapshots) {
-                            g_question_list.add(new questionsModel(
-                                    doc.getString("Question"),
-                                    doc.getString("Option_a"),
-                                    doc.getString("Option_b"),
-                                    doc.getString("Option_c"),
-                                    doc.getString("Option_d"),
-                                    Objects.requireNonNull(doc.getLong("Answer")).intValue()
-                            ));
-                            Collections.shuffle(g_question_list);
-                        }
-                    }
-                });
-
-        g_firestore.collection("Questions").document("Medium").collection("FilmTV")
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        //Get collection info and store it to the list
-                        for (DocumentSnapshot doc : queryDocumentSnapshots) {
-                            g_question_list.add(new questionsModel(
-                                    doc.getString("Question"),
-                                    doc.getString("Option_a"),
-                                    doc.getString("Option_b"),
-                                    doc.getString("Option_c"),
-                                    doc.getString("Option_d"),
-                                    Objects.requireNonNull(doc.getLong("Answer")).intValue()
-                            ));
-                            Collections.shuffle(g_question_list);
-                        }
-                    }
-                });
-
-        g_firestore.collection("Questions").document("Medium").collection("Geography")
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        //Get collection info and store it to the list
-                        for (DocumentSnapshot doc : queryDocumentSnapshots) {
-                            g_question_list.add(new questionsModel(
-                                    doc.getString("Question"),
-                                    doc.getString("Option_a"),
-                                    doc.getString("Option_b"),
-                                    doc.getString("Option_c"),
-                                    doc.getString("Option_d"),
-                                    Objects.requireNonNull(doc.getLong("Answer")).intValue()
-                            ));
-                            Collections.shuffle(g_question_list);
-                        }
-                    }
-                });
-
-        g_firestore.collection("Questions").document("Medium").collection("Music")
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        //Get collection info and store it to the list
-                        for (DocumentSnapshot doc : queryDocumentSnapshots) {
-                            g_question_list.add(new questionsModel(
-                                    doc.getString("Question"),
-                                    doc.getString("Option_a"),
-                                    doc.getString("Option_b"),
-                                    doc.getString("Option_c"),
-                                    doc.getString("Option_d"),
-                                    Objects.requireNonNull(doc.getLong("Answer")).intValue()
-                            ));
-                            Collections.shuffle(g_question_list);
-                        }
-                    }
-                });
-
-        g_firestore.collection("Questions").document("Medium").collection("Science")
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        //Get collection info and store it to the list
-                        for (DocumentSnapshot doc : queryDocumentSnapshots) {
-                            g_question_list.add(new questionsModel(
-                                    doc.getString("Question"),
-                                    doc.getString("Option_a"),
-                                    doc.getString("Option_b"),
-                                    doc.getString("Option_c"),
-                                    doc.getString("Option_d"),
-                                    Objects.requireNonNull(doc.getLong("Answer")).intValue()
-                            ));
-                            Collections.shuffle(g_question_list);
-                        }
-                    }
-                });
-
-        g_firestore.collection("Questions").document("Medium").collection("Sports")
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        //Get collection info and store it to the list
-                        for (DocumentSnapshot doc : queryDocumentSnapshots) {
-                            g_question_list.add(new questionsModel(
-                                    doc.getString("Question"),
-                                    doc.getString("Option_a"),
-                                    doc.getString("Option_b"),
-                                    doc.getString("Option_c"),
-                                    doc.getString("Option_d"),
-                                    Objects.requireNonNull(doc.getLong("Answer")).intValue()
-                            ));
-                            Collections.shuffle(g_question_list);
-                        }
-                        Collections.shuffle(g_question_list);
-                        setQuestion();
-                    }
-                });
-
-    }
-    //This function goes through all the collections under the document Hard and fills the array list
-    private void getHardSRQuestions()
-    {
-//Locates and gets the Collection Questions from firestore and designates it to the Questions model class
-        questionList = new ArrayList<>();
-        g_firestore.collection("Questions").document("Hard").collection("GK")
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        //Get collection info and store it to the list
-                        for (DocumentSnapshot doc : queryDocumentSnapshots) {
-                            g_question_list.add(new questionsModel(
-                                    doc.getString("Question"),
-                                    doc.getString("Option_a"),
-                                    doc.getString("Option_b"),
-                                    doc.getString("Option_c"),
-                                    doc.getString("Option_d"),
-                                    Objects.requireNonNull(doc.getLong("Answer")).intValue()
-                            ));
-                            Collections.shuffle(g_question_list);
-                        }
-                    }
-                });
-
-        g_firestore.collection("Questions").document("Hard").collection("History")
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        //Get collection info and store it to the list
-                        for (DocumentSnapshot doc : queryDocumentSnapshots) {
-                            g_question_list.add(new questionsModel(
-                                    doc.getString("Question"),
-                                    doc.getString("Option_a"),
-                                    doc.getString("Option_b"),
-                                    doc.getString("Option_c"),
-                                    doc.getString("Option_d"),
-                                    Objects.requireNonNull(doc.getLong("Answer")).intValue()
-                            ));
-                            Collections.shuffle(g_question_list);
-                        }
-                    }
-                });
-
-        g_firestore.collection("Questions").document("Hard").collection("FilmTV")
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        //Get collection info and store it to the list
-                        for (DocumentSnapshot doc : queryDocumentSnapshots) {
-                            g_question_list.add(new questionsModel(
-                                    doc.getString("Question"),
-                                    doc.getString("Option_a"),
-                                    doc.getString("Option_b"),
-                                    doc.getString("Option_c"),
-                                    doc.getString("Option_d"),
-                                    Objects.requireNonNull(doc.getLong("Answer")).intValue()
-                            ));
-                            Collections.shuffle(g_question_list);
-                        }
-                    }
-                });
-
-        g_firestore.collection("Questions").document("Hard").collection("Geography")
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        //Get collection info and store it to the list
-                        for (DocumentSnapshot doc : queryDocumentSnapshots) {
-                            g_question_list.add(new questionsModel(
-                                    doc.getString("Question"),
-                                    doc.getString("Option_a"),
-                                    doc.getString("Option_b"),
-                                    doc.getString("Option_c"),
-                                    doc.getString("Option_d"),
-                                    Objects.requireNonNull(doc.getLong("Answer")).intValue()
-                            ));
-                            Collections.shuffle(g_question_list);
-                        }
-                    }
-                });
-
-        g_firestore.collection("Questions").document("Hard").collection("Music")
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        //Get collection info and store it to the list
-                        for (DocumentSnapshot doc : queryDocumentSnapshots) {
-                            g_question_list.add(new questionsModel(
-                                    doc.getString("Question"),
-                                    doc.getString("Option_a"),
-                                    doc.getString("Option_b"),
-                                    doc.getString("Option_c"),
-                                    doc.getString("Option_d"),
-                                    Objects.requireNonNull(doc.getLong("Answer")).intValue()
-
-                            ));
-                            Collections.shuffle(g_question_list);
-                        }
-                    }
-                });
-
-        g_firestore.collection("Questions").document("Hard").collection("Science")
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        //Get collection info and store it to the list
-                        for (DocumentSnapshot doc : queryDocumentSnapshots) {
-                            g_question_list.add(new questionsModel(
-                                    doc.getString("Question"),
-                                    doc.getString("Option_a"),
-                                    doc.getString("Option_b"),
-                                    doc.getString("Option_c"),
-                                    doc.getString("Option_d"),
-                                    Objects.requireNonNull(doc.getLong("Answer")).intValue()
-                            ));
-                            Collections.shuffle(g_question_list);
-                        }
-                    }
-                });
-
-        g_firestore.collection("Questions").document("Hard").collection("Sports")
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        //Get collection info and store it to the list
-                        for (DocumentSnapshot doc : queryDocumentSnapshots) {
-                            g_question_list.add(new questionsModel(
-                                    doc.getString("Question"),
-                                    doc.getString("Option_a"),
-                                    doc.getString("Option_b"),
-                                    doc.getString("Option_c"),
-                                    doc.getString("Option_d"),
-                                    Objects.requireNonNull(doc.getLong("Answer")).intValue()
-                            ));
-                            Collections.shuffle(g_question_list);
-                        }
-
-                        Collections.shuffle(g_question_list);
-                        setQuestion();
-                    }
-                });
-    }
 
     //Gets the values sent to the Questions model and shows them in the relevant fields
     private void setQuestion() {
@@ -811,7 +502,7 @@ public class speedRunQuizActivity extends AppCompatActivity {
         }
     }
 
-    //Set Timer task - Will start from 300 seconds (3 minutes)
+    //Set Timer task - Will start from 60 seconds (1 minute)
     private void newTimer ()
     {
         testTimer = new Timer();
@@ -844,7 +535,6 @@ public class speedRunQuizActivity extends AppCompatActivity {
                             g_question_list.clear();
                             g_question_list.removeAll(Collections.emptyList());
                             getuserScores();
-
                         }
                     });
                 }
@@ -977,16 +667,14 @@ public class speedRunQuizActivity extends AppCompatActivity {
     //Get/Write users average time to answer questions
     private void setUserStatistics()
     {
-
         Intent intent = getIntent();
         final String difficultSetting = intent.getStringExtra("Difficulty");
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         String userEmail = firebaseUser.getEmail();
         //Checking if document exists with the same name as the user Email
         DocumentReference statsRef;
-        if(difficultSetting.toString().equals("Easy"))
-        {
-            statsRef = g_firestore.collection("Statistics").document("Easy").collection("Users").document(userEmail);
+
+            statsRef = g_firestore.collection("Statistics").document(difficultSetting).collection("Users").document(userEmail);
             statsRef.get()
                     .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                         @Override
@@ -1001,17 +689,17 @@ public class speedRunQuizActivity extends AppCompatActivity {
                                 //If there is no Topic Average stored, just add the time for this quiz only to a new field for the Selected Topic
                                 if(checkstoredTopicAverage == null)
                                 {
-                                    g_firestore.collection("Statistics").document("Easy").collection("Users").document(userEmail).update("Speed Run Average", time);
+                                    g_firestore.collection("Statistics").document(difficultSetting).collection("Users").document(userEmail).update("Speed Run Average", time);
                                 }
                                 //If there is a Topic Average Score stored, then calculate the new average
                                 if(checkstoredTopicAverage != null)
                                 {
                                     calcNewTopicAverage = (time + checkstoredTopicAverage) / 2;
-                                    g_firestore.collection("Statistics").document("Easy").collection("Users").document(userEmail).update("Speed Run Average", calcNewTopicAverage);
+                                    g_firestore.collection("Statistics").document(difficultSetting).collection("Users").document(userEmail).update("Speed Run Average", calcNewTopicAverage);
                                 }
                                 //Always calculate the overall average  - This field will always be here if the snapshot exists, so no need for conditional null statement
                                 calcNewAverage = (time + checkstoredaverage) / 2;
-                                g_firestore.collection("Statistics").document("Easy").collection("Users").document(userEmail).update("Average Time", calcNewAverage);
+                                g_firestore.collection("Statistics").document(difficultSetting).collection("Users").document(userEmail).update("Average Time", calcNewAverage);
                             }
                             //If email doesn't exist, just add a new document with the name of the currently logged in user
                             if (!snapshot.exists()) {
@@ -1022,97 +710,11 @@ public class speedRunQuizActivity extends AppCompatActivity {
                                 gkstats.put("Username", userName);
                                 gkstats.put("Average Time", time);
                                 gkstats.put("Speed Run Average", time);
-                                g_firestore.collection("Statistics").document("Easy").collection("Users").document(userEmail).set(gkstats);
+                                g_firestore.collection("Statistics").document(difficultSetting).collection("Users").document(userEmail).set(gkstats);
                             }
                         }
                     });
-        }
-        if(difficultSetting.toString().equals("Medium"))
-        {
-            statsRef = g_firestore.collection("Statistics").document("Medium").collection("Users").document(userEmail);
-            statsRef.get()
-                    .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                        @Override
-                        public void onSuccess(DocumentSnapshot snapshot) {
-                            //If document with email address as id exist - Only update this document/override
-                            if (snapshot.exists()) {
-                                getUserName();
-                                FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-                                String userEmail = firebaseUser.getEmail();
-                                checkstoredaverage = snapshot.getDouble("Average Time");
-                                checkstoredTopicAverage = snapshot.getDouble("Speed Run Average");
-                                //If there is no Topic Average stored, just add the time for this quiz only to a new field for the Selected Topic
-                                if(checkstoredTopicAverage == null)
-                                {
-                                    g_firestore.collection("Statistics").document("Medium").collection("Users").document(userEmail).update("Speed Run Average", time);
-                                }
-                                //If there is a Topic Average Score stored, then calculate the new average
-                                if(checkstoredTopicAverage != null)
-                                {
-                                    calcNewTopicAverage = (time + checkstoredTopicAverage) / 2;
-                                    g_firestore.collection("Statistics").document("Medium").collection("Users").document(userEmail).update("Speed Run Average", calcNewTopicAverage);
-                                }
-                                //Always calculate the overall average  - This field will always be here if the snapshot exists, so no need for conditional null statement
-                                calcNewAverage = (time + checkstoredaverage) / 2;
-                                g_firestore.collection("Statistics").document("Medium").collection("Users").document(userEmail).update("Average Time", calcNewAverage);
-                            }
-                            //If email doesn't exist, just add a new document with the name of the currently logged in user
-                            if (!snapshot.exists()) {
-                                getUserName();
-                                FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-                                String userEmail = firebaseUser.getEmail();
-                                Map<String, Object> gkstats = new HashMap<>();
-                                gkstats.put("Username", userName);
-                                gkstats.put("Average Time", time);
-                                gkstats.put("Speed Run Average", time);
-                                g_firestore.collection("Statistics").document("Medium").collection("Users").document(userEmail).set(gkstats);
-                            }
-                        }
-                    });
-        }
-        if(difficultSetting.toString().equals("Hard"))
-        {
-            statsRef = g_firestore.collection("Statistics").document("Hard").collection("Users").document(userEmail);
-            statsRef.get()
-                    .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                        @Override
-                        public void onSuccess(DocumentSnapshot snapshot) {
-                            //If document with email address as id exist - Only update this document/override
-                            if (snapshot.exists()) {
-                                getUserName();
-                                FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-                                String userEmail = firebaseUser.getEmail();
-                                checkstoredaverage = snapshot.getDouble("Average Time");
-                                checkstoredTopicAverage = snapshot.getDouble("Speed Run Average");
-                                //If there is no Topic Average stored, just add the time for this quiz only to a new field for the Selected Topic
-                                if(checkstoredTopicAverage == null)
-                                {
-                                    g_firestore.collection("Statistics").document("Hard").collection("Users").document(userEmail).update("Speed Run Average", time);
-                                }
-                                //If there is a Topic Average Score stored, then calculate the new average
-                                if(checkstoredTopicAverage != null)
-                                {
-                                    calcNewTopicAverage = (time + checkstoredTopicAverage) / 2;
-                                    g_firestore.collection("Statistics").document("Hard").collection("Users").document(userEmail).update("Speed Run Average", calcNewTopicAverage);
-                                }
-                                //Always calculate the overall average  - This field will always be here if the snapshot exists, so no need for conditional null statement
-                                calcNewAverage = (time + checkstoredaverage) / 2;
-                                g_firestore.collection("Statistics").document("Hard").collection("Users").document(userEmail).update("Average Time", calcNewAverage);
-                            }
-                            //If email doesn't exist, just add a new document with the name of the currently logged in user
-                            if (!snapshot.exists()) {
-                                getUserName();
-                                FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-                                String userEmail = firebaseUser.getEmail();
-                                Map<String, Object> gkstats = new HashMap<>();
-                                gkstats.put("Username", userName);
-                                gkstats.put("Average Time", time);
-                                gkstats.put("Speed Run Average", time);
-                                g_firestore.collection("Statistics").document("Hard").collection("Users").document(userEmail).set(gkstats);
-                            }
-                        }
-                    });
-        }
+
     }
     private void countTimetoAnswerQuestions()
     {

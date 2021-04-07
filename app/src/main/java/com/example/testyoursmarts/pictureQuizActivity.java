@@ -68,6 +68,7 @@ import static androidx.constraintlayout.widget.ConstraintProperties.TOP;
 import static com.example.testyoursmarts.dbQuery.g_question_list;
 import static com.example.testyoursmarts.dbQuery.pictureQ_List;
 import static com.example.testyoursmarts.dbQuery.picture_firestore;
+import static java.lang.Thread.sleep;
 
 public class pictureQuizActivity extends AppCompatActivity {
     private RadioGroup buttonGroup;
@@ -204,22 +205,20 @@ public class pictureQuizActivity extends AppCompatActivity {
         // (Shouldn't be any, but this covers if the back button is pressed and the user comes back to this activity
         pictureQ_List.clear();
         pictureQ_List.removeAll(Collections.emptyList());
-
-        //Retrieving difficulty from Confirm Quiz page and setting appropriate questions
+        //Loading up questions
+        getAllPictureQuestions();
+        //Retrieving difficulty from Confirm Quiz
         switch (difficultSetting) {
             case "Easy":
-                //Loading up questions
-                getEasyPictureQuestions();
+
                 potentialScore = questionTotal;
                 textViewScore.setText("Score: " + score + "/" + potentialScore);
                 break;
             case "Medium":
-                getMediumPictureQuestions();
                 potentialScore = questionTotal * 2;
                 textViewScore.setText("Score: " + score + "/" + potentialScore);
                 break;
             case "Hard":
-                getHardPictureQuestions();
                 potentialScore = questionTotal * 3;
                 textViewScore.setText("Score: " + score + "/" + potentialScore);
                 break;
@@ -250,9 +249,25 @@ public class pictureQuizActivity extends AppCompatActivity {
     }
 
     //Get all the Easy Picture Questions
-    private void getEasyPictureQuestions()
+    private void getAllPictureQuestions()
     {
-        g_firestore.collection("Picture Questions").document("Easy").collection("Easy Questions")
+        Intent intent = getIntent();
+        //Getting the difficulty level set from the confirm quiz page
+        String difficultSetting = intent.getStringExtra("Difficulty");
+        String whichQuestions = "";
+        if(difficultSetting.equals("Easy"))
+        {
+            whichQuestions = "Easy Questions";
+        }
+        if(difficultSetting.equals("Medium"))
+        {
+            whichQuestions = "Medium Questions";
+        }
+        if(difficultSetting.equals("Hard"))
+        {
+            whichQuestions = "Hard Questions";
+        }
+        g_firestore.collection("Picture Questions").document(difficultSetting).collection(whichQuestions)
                 .get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
@@ -275,58 +290,7 @@ public class pictureQuizActivity extends AppCompatActivity {
                     }
                 });
     }
-    //Get all the Medium Picture Questions
-    private void getMediumPictureQuestions()
-    {
-        g_firestore.collection("Picture Questions").document("Medium").collection("Medium Questions")
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        //Get collection info and store it to the list
-                        for (DocumentSnapshot doc : queryDocumentSnapshots) {
-                            pictureQ_List.add(new pictureQuizModel(
-                                    doc.getString("Question"),
-                                    doc.getString("Option_a"),
-                                    doc.getString("Option_b"),
-                                    doc.getString("Option_c"),
-                                    doc.getString("Option_d"),
-                                    Objects.requireNonNull(doc.getLong("Answer")).intValue(),
-                                    doc.getString("Image")
-                            ));
-                            Collections.shuffle(pictureQ_List);
-                        }
-                        setQuestion();
-                        startTimer();
-                    }
-                });
-    }
-    //Get all the Hard Picture Questions
-    private void getHardPictureQuestions()
-    {
-        g_firestore.collection("Picture Questions").document("Hard").collection("Hard Questions")
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        //Get collection info and store it to the list
-                        for (DocumentSnapshot doc : queryDocumentSnapshots) {
-                            pictureQ_List.add(new pictureQuizModel(
-                                    doc.getString("Question"),
-                                    doc.getString("Option_a"),
-                                    doc.getString("Option_b"),
-                                    doc.getString("Option_c"),
-                                    doc.getString("Option_d"),
-                                    Objects.requireNonNull(doc.getLong("Answer")).intValue(),
-                                    doc.getString("Image")
-                            ));
-                            Collections.shuffle(pictureQ_List);
-                        }
-                        setQuestion();
-                        startTimer();
-                    }
-                });
-    }
+
 
     private void setQuestion()
     {
@@ -495,10 +459,13 @@ public class pictureQuizActivity extends AppCompatActivity {
 
     private void startTimer()
     {
-        cTimer = new CountDownTimer(16000, 1000) {
+        cTimer = new CountDownTimer(16000, 1000)
+        {
+
             @Override
             public void onTick(long millisUntilFinished)
             {
+
                 int seconds = (int) (millisUntilFinished / 1000);
                 timer.setText(String.valueOf(seconds));
                 if(timer.getText().toString().equals("0") || (timer.getText().toString().equals("1"))
@@ -631,9 +598,8 @@ public class pictureQuizActivity extends AppCompatActivity {
         String userEmail = firebaseUser.getEmail();
         //Checking if document exists with the same name as the user Email
         DocumentReference statsRef;
-        if(difficultSetting.toString().equals("Easy"))
-        {
-            statsRef = g_firestore.collection("Statistics").document("Easy").collection("Users").document(userEmail);
+
+            statsRef = g_firestore.collection("Statistics").document(difficultSetting).collection("Users").document(userEmail);
             statsRef.get()
                     .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                         @Override
@@ -648,17 +614,17 @@ public class pictureQuizActivity extends AppCompatActivity {
                                 //If there is no Topic Average stored, just add the time for this quiz only to a new field for the Selected Topic
                                 if(checkstoredTopicAverage == null)
                                 {
-                                    g_firestore.collection("Statistics").document("Easy").collection("Users").document(userEmail).update("Picture Average", time);
+                                    g_firestore.collection("Statistics").document(difficultSetting).collection("Users").document(userEmail).update("Picture Average", time);
                                 }
                                 //If there is a Topic Average Score stored, then calculate the new average
                                 if(checkstoredTopicAverage != null)
                                 {
                                     calcNewTopicAverage = (time + checkstoredTopicAverage) / 2;
-                                    g_firestore.collection("Statistics").document("Easy").collection("Users").document(userEmail).update("Picture Average", calcNewTopicAverage);
+                                    g_firestore.collection("Statistics").document(difficultSetting).collection("Users").document(userEmail).update("Picture Average", calcNewTopicAverage);
                                 }
                                 //Always calculate the overall average  - This field will always be here if the snapshot exists, so no need for conditional null statement
                                 calcNewAverage = (time + checkstoredaverage) / 2;
-                                g_firestore.collection("Statistics").document("Easy").collection("Users").document(userEmail).update("Average Time", calcNewAverage);
+                                g_firestore.collection("Statistics").document(difficultSetting).collection("Users").document(userEmail).update("Average Time", calcNewAverage);
                             }
                             //If email doesn't exist, just add a new document with the name of the currently logged in user
                             if (!snapshot.exists()) {
@@ -669,97 +635,11 @@ public class pictureQuizActivity extends AppCompatActivity {
                                 gkstats.put("Username", userName);
                                 gkstats.put("Average Time", time);
                                 gkstats.put("Picture Average", time);
-                                g_firestore.collection("Statistics").document("Easy").collection("Users").document(userEmail).set(gkstats);
+                                g_firestore.collection("Statistics").document(difficultSetting).collection("Users").document(userEmail).set(gkstats);
                             }
                         }
                     });
-        }
-        if(difficultSetting.toString().equals("Medium"))
-        {
-            statsRef = g_firestore.collection("Statistics").document("Medium").collection("Users").document(userEmail);
-            statsRef.get()
-                    .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                        @Override
-                        public void onSuccess(DocumentSnapshot snapshot) {
-                            //If document with email address as id exist - Only update this document/override
-                            if (snapshot.exists()) {
-                                getUserName();
-                                FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-                                String userEmail = firebaseUser.getEmail();
-                                checkstoredaverage = snapshot.getDouble("Average Time");
-                                checkstoredTopicAverage = snapshot.getDouble("Picture Average");
-                                //If there is no Topic Average stored, just add the time for this quiz only to a new field for the Selected Topic
-                                if(checkstoredTopicAverage == null)
-                                {
-                                    g_firestore.collection("Statistics").document("Medium").collection("Users").document(userEmail).update("Picture Average", time);
-                                }
-                                //If there is a Topic Average Score stored, then calculate the new average
-                                if(checkstoredTopicAverage != null)
-                                {
-                                    calcNewTopicAverage = (time + checkstoredTopicAverage) / 2;
-                                    g_firestore.collection("Statistics").document("Medium").collection("Users").document(userEmail).update("Picture Average", calcNewTopicAverage);
-                                }
-                                //Always calculate the overall average  - This field will always be here if the snapshot exists, so no need for conditional null statement
-                                calcNewAverage = (time + checkstoredaverage) / 2;
-                                g_firestore.collection("Statistics").document("Medium").collection("Users").document(userEmail).update("Average Time", calcNewAverage);
-                            }
-                            //If email doesn't exist, just add a new document with the name of the currently logged in user
-                            if (!snapshot.exists()) {
-                                getUserName();
-                                FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-                                String userEmail = firebaseUser.getEmail();
-                                Map<String, Object> gkstats = new HashMap<>();
-                                gkstats.put("Username", userName);
-                                gkstats.put("Average Time", time);
-                                gkstats.put("Picture Average", time);
-                                g_firestore.collection("Statistics").document("Medium").collection("Users").document(userEmail).set(gkstats);
-                            }
-                        }
-                    });
-        }
-        if(difficultSetting.toString().equals("Hard"))
-        {
-            statsRef = g_firestore.collection("Statistics").document("Hard").collection("Users").document(userEmail);
-            statsRef.get()
-                    .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                        @Override
-                        public void onSuccess(DocumentSnapshot snapshot) {
-                            //If document with email address as id exist - Only update this document/override
-                            if (snapshot.exists()) {
-                                getUserName();
-                                FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-                                String userEmail = firebaseUser.getEmail();
-                                checkstoredaverage = snapshot.getDouble("Average Time");
-                                checkstoredTopicAverage = snapshot.getDouble("Picture Average");
-                                //If there is no Topic Average stored, just add the time for this quiz only to a new field for the Selected Topic
-                                if(checkstoredTopicAverage == null)
-                                {
-                                    g_firestore.collection("Statistics").document("Hard").collection("Users").document(userEmail).update("Picture Average", time);
-                                }
-                                //If there is a Topic Average Score stored, then calculate the new average
-                                if(checkstoredTopicAverage != null)
-                                {
-                                    calcNewTopicAverage = (time + checkstoredTopicAverage) / 2;
-                                    g_firestore.collection("Statistics").document("Hard").collection("Users").document(userEmail).update("Picture Average", calcNewTopicAverage);
-                                }
-                                //Always calculate the overall average  - This field will always be here if the snapshot exists, so no need for conditional null statement
-                                calcNewAverage = (time + checkstoredaverage) / 2;
-                                g_firestore.collection("Statistics").document("Hard").collection("Users").document(userEmail).update("Average Time", calcNewAverage);
-                            }
-                            //If email doesn't exist, just add a new document with the name of the currently logged in user
-                            if (!snapshot.exists()) {
-                                getUserName();
-                                FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-                                String userEmail = firebaseUser.getEmail();
-                                Map<String, Object> gkstats = new HashMap<>();
-                                gkstats.put("Username", userName);
-                                gkstats.put("Average Time", time);
-                                gkstats.put("Picture Average", time);
-                                g_firestore.collection("Statistics").document("Hard").collection("Users").document(userEmail).set(gkstats);
-                            }
-                        }
-                    });
-        }
+
     }
     private void countTimetoAnswerQuestions()
     {

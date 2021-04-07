@@ -40,12 +40,13 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
 import static com.example.testyoursmarts.dbQuery.g_question_list;
 
-public class scienceQuizActivity extends AppCompatActivity {
+public class topicQuizActivity extends AppCompatActivity {
     private RadioGroup buttonGroup;
     private RadioButton op1;
     private RadioButton op2;
@@ -60,9 +61,10 @@ public class scienceQuizActivity extends AppCompatActivity {
     private String userName, checkUser;
     private int checkscore;
     public static FirebaseFirestore g_firestore;
+    public static List<questionsModel> g_question_list = new ArrayList<>();
 
     //UserStats Variables
-    private String gettime;
+    private String gettime, topicAverage;
     private String guestLog = "Guest";
     private TextView timetoanswer;
     private double checkstoredaverage, calcNewAverage, calcNewTopicAverage;
@@ -71,6 +73,8 @@ public class scienceQuizActivity extends AppCompatActivity {
     private int tallytime = 0;
     private int calculatetime;
     private double time;
+    private String quizDifficulty;
+    private String actualTopic;
 
     private Dialog loadingDialog;
     private ArrayList<Integer> questionIDs = new ArrayList<Integer>();
@@ -96,19 +100,19 @@ public class scienceQuizActivity extends AppCompatActivity {
                         case R.id.nav_home:
                             g_question_list.clear();
                             g_question_list.removeAll(Collections.emptyList());
-                            Intent intentHome = new Intent(scienceQuizActivity.this, MainActivity.class);
+                            Intent intentHome = new Intent(topicQuizActivity.this, MainActivity.class);
                             startActivity(intentHome);
                             return true;
 
                         case R.id.nav_leaderboard:
                             g_question_list.clear();
                             g_question_list.removeAll(Collections.emptyList());
-                            Intent intentLeaderboard= new Intent(scienceQuizActivity.this, leaderboardChoiceActivity.class);
+                            Intent intentLeaderboard= new Intent(topicQuizActivity.this, leaderboardChoiceActivity.class);
                             startActivity(intentLeaderboard);
                             return true;
 
                         case R.id.nav_account:
-                            Intent intentAccount = new Intent(scienceQuizActivity.this, account_page.class);
+                            Intent intentAccount = new Intent(topicQuizActivity.this, account_page.class);
                             startActivity(intentAccount);
                             return true;
 
@@ -142,7 +146,7 @@ public class scienceQuizActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Topic Quiz - Science");
+
         bottomNavigationView = findViewById(R.id.top_nav_bar);
         main_frame = findViewById(R.id.main_frame);
         bottomNavigationView.setOnNavigationItemSelectedListener(onNavigationItemReselectedListener);
@@ -166,35 +170,17 @@ public class scienceQuizActivity extends AppCompatActivity {
         Intent intent = getIntent();
         //Getting the difficulty level set from the confirm quiz page
         String difficultSetting = intent.getStringExtra("Difficulty");
+        actualTopic = intent.getStringExtra("TopicQuiz");
+
         theDifficulty.setText("Difficulty: " + difficultSetting);
         //Accessing firestore
         g_firestore = FirebaseFirestore.getInstance();
         getUserName();
         //Removes any existing elements in the array
-        // (Shouldn't be any, but this covers if the back button is pressed and the user comes back to this activity
         g_question_list.clear();
         questionIDs.removeAll(Collections.emptyList());
-
-        //Retrieving difficulty from Confirm Quiz page and setting appropriate questions
-        switch (difficultSetting) {
-            case "Easy":
                 //Loading up questions
-                getEasyScienceQuestions();
-                potentialScore = questionTotal;
-                textViewScore.setText("SCORE: " + score + "/" + potentialScore);
-                break;
-            case "Medium":
-                getMediumScienceQuestions();
-                potentialScore = questionTotal * 2;
-                textViewScore.setText("SCORE: " + score + "/" + potentialScore);
-                break;
-            case "Hard":
-                getHardScienceQuestions();
-                potentialScore = questionTotal * 3;
-                textViewScore.setText("SCORE: " + score + "/" + potentialScore);
-                break;
-        }
-
+                getTopicQuestions();
         confirmNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -207,7 +193,7 @@ public class scienceQuizActivity extends AppCompatActivity {
                         setQuestion();
                         startTimer();
                     } else {
-                        Toast.makeText(scienceQuizActivity.this, "Please select answer", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(topicQuizActivity.this, "Please select answer", Toast.LENGTH_SHORT).show();
                     }
                 } else {
                     countTimetoAnswerQuestions();
@@ -216,61 +202,18 @@ public class scienceQuizActivity extends AppCompatActivity {
                 }
             }
         });
-
     }
-    private void getEasyScienceQuestions()
+    //Get questions from Firestore
+    private void getTopicQuestions()
     {
-        g_firestore.collection("Questions").document("Easy").collection("Science")
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        //Get collection info and store it to the list
-                        for (DocumentSnapshot doc : queryDocumentSnapshots) {
-                            g_question_list.add(new questionsModel(
-                                    doc.getString("Question"),
-                                    doc.getString("Option_a"),
-                                    doc.getString("Option_b"),
-                                    doc.getString("Option_c"),
-                                    doc.getString("Option_d"),
-                                    Objects.requireNonNull(doc.getLong("Answer")).intValue()
-                            ));
-                            Collections.shuffle(g_question_list);
-                        }
-                        setQuestion();
-                        startTimer();
-                    }
-                });
-    }
-    //Get all Medium Geography questions from firestore
-    private void getMediumScienceQuestions()
-    {
-        g_firestore.collection("Questions").document("Medium").collection("Science")
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        //Get collection info and store it to the list
-                        for (DocumentSnapshot doc : queryDocumentSnapshots) {
-                            g_question_list.add(new questionsModel(
-                                    doc.getString("Question"),
-                                    doc.getString("Option_a"),
-                                    doc.getString("Option_b"),
-                                    doc.getString("Option_c"),
-                                    doc.getString("Option_d"),
-                                    Objects.requireNonNull(doc.getLong("Answer")).intValue()
-                            ));
-                            Collections.shuffle(g_question_list);
-                        }
-                        setQuestion();
-                        startTimer();
-                    }
-                });
-    }
-    //Get all Hard Geography questions from firestore
-    private void getHardScienceQuestions()
-    {
-        g_firestore.collection("Questions").document("Hard").collection("Science")
+        Intent intent = getIntent();
+        //Getting the Difficulty setting from confirm quiz
+        String checkDifficulty = intent.getStringExtra("Difficulty");
+        //Getting the topic selected from confirm quiz
+        String theTopic = intent.getStringExtra("QuizTopic");
+        //Setting the Action bar title based on what the Topic is
+        getSupportActionBar().setTitle(theTopic + " Quiz");
+        g_firestore.collection("Questions").document(checkDifficulty).collection(theTopic)
                 .get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
@@ -293,6 +236,7 @@ public class scienceQuizActivity extends AppCompatActivity {
                 });
     }
 
+    //Set the question function based on Retrieved documents
     private void setQuestion()
     {
         op1.setTextColor(textColorDefaultRb);
@@ -303,13 +247,14 @@ public class scienceQuizActivity extends AppCompatActivity {
         String qText = "Question: ";
         String slash = "/";
         String confirm = "Confirm";
-
-        //If current question number is less than total number of questions, keep going, otherwise finish
+        //If current question number is less than total number of questions, re activate the Button group
         if (questionCount < questionTotal) {
             for (int i = 0; i < buttonGroup.getChildCount(); i++) {
                 buttonGroup.getChildAt(i).setEnabled(true);
             }
+            //Current question will be the question in the arraylist that is the number of the question count
             currentQuestion = g_question_list.get(questionCount);
+            //Display question in text view and show options beside the radio buttons
             textViewQuestion.setText(currentQuestion.getQuestion());
             op1.setText(currentQuestion.getOption1());
             op2.setText(currentQuestion.getOption2());
@@ -323,14 +268,12 @@ public class scienceQuizActivity extends AppCompatActivity {
         }
     }
 
-    //If correct answer from firestore matches selected button, increment score by 1
+    //If correct answer from firestore matches selected button, increment score by 1, 2 or 3 (Depending on Difficulty)
     private void checkAnswer()
     {
         answered = true;
         RadioButton rbSelected = findViewById(buttonGroup.getCheckedRadioButtonId());
         int answerNr = buttonGroup.indexOfChild(rbSelected) + 1;
-
-
         Intent intent = getIntent();
         String difficultSetting = intent.getStringExtra("Difficulty");
         if(difficultSetting.toString().equals("Easy")) {
@@ -340,7 +283,6 @@ public class scienceQuizActivity extends AppCompatActivity {
                 textViewScore.setText("SCORE: " + score + "/" + potentialScore);
             }
         }
-
         if(difficultSetting.toString().equals("Medium")) {
             if (answerNr == correctAnswer) {
                 score = score + 2;
@@ -348,7 +290,6 @@ public class scienceQuizActivity extends AppCompatActivity {
                 textViewScore.setText("SCORE: " + score + "/" + potentialScore);
             }
         }
-
         if(difficultSetting.toString().equals("Hard")) {
             if (answerNr == correctAnswer) {
                 score = score + 3;
@@ -367,7 +308,6 @@ public class scienceQuizActivity extends AppCompatActivity {
         op2.setTextColor(Color.RED);
         op3.setTextColor(Color.RED);
         op4.setTextColor(Color.RED);
-
         switch (currentQuestion.getCorrectAnswer())
         {
             case 1:
@@ -443,6 +383,9 @@ public class scienceQuizActivity extends AppCompatActivity {
         averageTime();
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         String userEmail = firebaseUser.getEmail();
+        Intent intent = getIntent();
+        final String whatTopic = intent.getStringExtra("QuizTopic");
+
         //If the current logged in user is a Guest, do this - Writes no data to leader board
         if(userEmail == null)
         {
@@ -450,26 +393,36 @@ public class scienceQuizActivity extends AppCompatActivity {
         }
         if(userEmail == guestLog)
         {
-            Intent resultintent = new Intent(scienceQuizActivity.this, resultPageActivity.class);
+            Intent resultintent = new Intent(topicQuizActivity.this, resultPageActivity.class);
             resultintent.putExtra("SCORE", score);
-            resultintent.putExtra("QUIZ", "Topic Quiz - Science");
+            resultintent.putExtra("QUIZ", actualTopic +  " Quiz");
             resultintent.putExtra("TIME", time);
             g_question_list.clear();
             startActivity(resultintent);
         }
         if(!Patterns.EMAIL_ADDRESS.matcher(userEmail).matches())
         {
-            Intent resultintent = new Intent(scienceQuizActivity.this, resultPageActivity.class);
+            Intent resultintent = new Intent(topicQuizActivity.this, resultPageActivity.class);
             resultintent.putExtra("SCORE", score);
-            resultintent.putExtra("QUIZ", "Topic Quiz - Science");
+            resultintent.putExtra("QUIZ", actualTopic +  " Quiz");
             resultintent.putExtra("TIME", time);
             g_question_list.clear();
             startActivity(resultintent);
         }
 
+        final String whichDoc;
+        //If topic is GK, then search Document of this name for collection, otherwise search for Topic
+        if(whatTopic.equals("GK"))
+        {
+            whichDoc = "General Knowledge";
+        }
+        else
+        {
+            whichDoc = "Topic";
+        }
         if(Patterns.EMAIL_ADDRESS.matcher(userEmail).matches()) {
             //Checking if document exists with the same name as the user Email
-            DocumentReference userRef = g_firestore.collection("Leaderboards").document("Topic").collection("Science").document(userEmail);
+            DocumentReference userRef = g_firestore.collection("Leaderboards").document(whichDoc).collection(whatTopic).document(userEmail);
             userRef.get()
                     .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                         @Override
@@ -481,9 +434,9 @@ public class scienceQuizActivity extends AppCompatActivity {
                                 checkUser = snapshot.getString("Username");
                                 Intent intent = getIntent();
                                 String difficultSetting = intent.getStringExtra("Difficulty");
-                                Intent resultintent = new Intent(scienceQuizActivity.this, resultPageActivity.class);
+                                Intent resultintent = new Intent(topicQuizActivity.this, resultPageActivity.class);
                                 resultintent.putExtra("SCORE", score);
-                                resultintent.putExtra("QUIZ", "Topic Quiz - Science");
+                                resultintent.putExtra("QUIZ", whatTopic + " Quiz");
                                 resultintent.putExtra("TIME", time);
                                 FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
                                 String userEmail = firebaseUser.getEmail();
@@ -494,8 +447,8 @@ public class scienceQuizActivity extends AppCompatActivity {
                                     gkscore.put("Username", userName);
                                     gkscore.put("Score", score);
                                     gkscore.put("Difficulty", difficultSetting);
-                                    gkscore.put("QuizType", "Science");
-                                    g_firestore.collection("Leaderboards").document("Topic").collection("Science").document(userEmail).set(gkscore);
+                                    gkscore.put("QuizType", whatTopic);
+                                    g_firestore.collection("Leaderboards").document(whichDoc).collection(whatTopic).document(userEmail).set(gkscore);
                                     setUserStatistics();
                                     startActivity(resultintent);
                                     g_question_list.clear();
@@ -505,27 +458,25 @@ public class scienceQuizActivity extends AppCompatActivity {
                                     g_question_list.clear();
                                     questionIDs.removeAll(Collections.emptyList());
                                 }
-
                             }
                             //If email doesn't exist, just add a new document with the name of the currently logged in user
                             if (!snapshot.exists()) {
                                 getUserName();
                                 Intent intent = getIntent();
                                 String difficultSetting = intent.getStringExtra("Difficulty");
-                                Intent resultintent = new Intent(scienceQuizActivity.this, resultPageActivity.class);
+                                Intent resultintent = new Intent(topicQuizActivity.this, resultPageActivity.class);
                                 resultintent.putExtra("SCORE", score);
-                                resultintent.putExtra("QUIZ", "Topic Quiz - Science");
+                                resultintent.putExtra("QUIZ", whatTopic + " Quiz");
                                 resultintent.putExtra("TIME", time);
                                 FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
                                 String userEmail = firebaseUser.getEmail();
                                 setUserStatistics();
-
                                 Map<String, Object> gkscore = new HashMap<>();
                                 gkscore.put("Username", userName);
                                 gkscore.put("Score", score);
                                 gkscore.put("Difficulty", difficultSetting);
-                                gkscore.put("QuizType", "Science");
-                                g_firestore.collection("Leaderboards").document("Topic").collection("Science").document(userEmail).set(gkscore);
+                                gkscore.put("QuizType", whatTopic);
+                                g_firestore.collection("Leaderboards").document(whichDoc).collection(whatTopic).document(userEmail).set(gkscore);
                                 startActivity(resultintent);
                                 g_question_list.clear();
                                 questionIDs.removeAll(Collections.emptyList());
@@ -538,107 +489,45 @@ public class scienceQuizActivity extends AppCompatActivity {
                     });
         }
     }
-
+//Setting the Average time taken to answer questions statistics based on difficulty/Topic
     private void setUserStatistics()
     {
-
         Intent intent = getIntent();
         final String difficultSetting = intent.getStringExtra("Difficulty");
+        final String actualTopic = intent.getStringExtra("QuizTopic");
+        if(actualTopic.equals("GK"))
+        {
+            topicAverage = "GK Average";
+        }
+        if(actualTopic.equals("FilmTV"))
+        {
+            topicAverage = "FilmTV Average";
+        }
+        if(actualTopic.equals("Science"))
+        {
+            topicAverage = "Science Average";
+        }
+        if(actualTopic.equals("Geography"))
+        {
+            topicAverage = "Geography Average";
+        }
+        if(actualTopic.equals("History"))
+        {
+            topicAverage = "History Average";
+        }
+        if(actualTopic.equals("Music"))
+        {
+            topicAverage = "Music Average";
+        }
+        if(actualTopic.equals("Sports"))
+        {
+            topicAverage = "Sports Average";
+        }
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         String userEmail = firebaseUser.getEmail();
         //Checking if document exists with the same name as the user Email
         DocumentReference statsRef;
-        if(difficultSetting.toString().equals("Easy"))
-        {
-            statsRef = g_firestore.collection("Statistics").document("Easy").collection("Users").document(userEmail);
-            statsRef.get()
-                    .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                        @Override
-                        public void onSuccess(DocumentSnapshot snapshot) {
-                            //If document with email address as id exist - Only update this document/override
-                            //If document with email address as id exist - Only update this document/override
-                            if (snapshot.exists()) {
-                                getUserName();
-                                FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-                                String userEmail = firebaseUser.getEmail();
-                                checkstoredaverage = snapshot.getDouble("Average Time");
-                                checkstoredTopicAverage = snapshot.getDouble("Science Average");
-                                //If there is no Topic Average stored, just add the time for this quiz only to a new field for the Selected Topic
-                                if(checkstoredTopicAverage == null)
-                                {
-                                    g_firestore.collection("Statistics").document("Easy").collection("Users").document(userEmail).update("Science Average", time);
-                                }
-                                //If there is a Topic Average Score stored, then calculate the new average
-                                if(checkstoredTopicAverage != null)
-                                {
-                                    calcNewTopicAverage = (time + checkstoredTopicAverage) / 2;
-                                    g_firestore.collection("Statistics").document("Easy").collection("Users").document(userEmail).update("Science Average", calcNewTopicAverage);
-                                }
-                                //Always calculate the overall average  - This field will always be here if the snapshot exists, so no need for conditional null statement
-                                calcNewAverage = (time + checkstoredaverage) / 2;
-                                g_firestore.collection("Statistics").document("Easy").collection("Users").document(userEmail).update("Average Time", calcNewAverage);
-                            }
-                            //If email doesn't exist, just add a new document with the name of the currently logged in user
-                            if (!snapshot.exists()) {
-                                getUserName();
-                                FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-                                String userEmail = firebaseUser.getEmail();
-                                Map<String, Object> gkstats = new HashMap<>();
-                                gkstats.put("Username", userName);
-                                gkstats.put("Average Time", time);
-                                gkstats.put("Science Average", time);
-                                g_firestore.collection("Statistics").document("Easy").collection("Users").document(userEmail).set(gkstats);
-                            }
-                        }
-                    });
-        }
-        if(difficultSetting.toString().equals("Medium"))
-        {
-            statsRef = g_firestore.collection("Statistics").document("Medium").collection("Users").document(userEmail);
-            statsRef.get()
-                    .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                        @Override
-                        public void onSuccess(DocumentSnapshot snapshot) {
-                            //If document with email address as id exist - Only update this document/override
-                            //If document with email address as id exist - Only update this document/override
-                            if (snapshot.exists()) {
-                                getUserName();
-                                FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-                                String userEmail = firebaseUser.getEmail();
-                                checkstoredaverage = snapshot.getDouble("Average Time");
-                                checkstoredTopicAverage = snapshot.getDouble("Science Average");
-                                //If there is no Topic Average stored, just add the time for this quiz only to a new field for the Selected Topic
-                                if(checkstoredTopicAverage == null)
-                                {
-                                    g_firestore.collection("Statistics").document("Medium").collection("Users").document(userEmail).update("Science Average", time);
-                                }
-                                //If there is a Topic Average Score stored, then calculate the new average
-                                if(checkstoredTopicAverage != null)
-                                {
-                                    calcNewTopicAverage = (time + checkstoredTopicAverage) / 2;
-                                    g_firestore.collection("Statistics").document("Medium").collection("Users").document(userEmail).update("Science Average", calcNewTopicAverage);
-                                }
-                                //Always calculate the overall average  - This field will always be here if the snapshot exists, so no need for conditional null statement
-                                calcNewAverage = (time + checkstoredaverage) / 2;
-                                g_firestore.collection("Statistics").document("Medium").collection("Users").document(userEmail).update("Average Time", calcNewAverage);
-                            }
-                            //If email doesn't exist, just add a new document with the name of the currently logged in user
-                            if (!snapshot.exists()) {
-                                getUserName();
-                                FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-                                String userEmail = firebaseUser.getEmail();
-                                Map<String, Object> gkstats = new HashMap<>();
-                                gkstats.put("Username", userName);
-                                gkstats.put("Average Time", time);
-                                gkstats.put("Science Average", time);
-                                g_firestore.collection("Statistics").document("Medium").collection("Users").document(userEmail).set(gkstats);
-                            }
-                        }
-                    });
-        }
-        if(difficultSetting.toString().equals("Hard"))
-        {
-            statsRef = g_firestore.collection("Statistics").document("Hard").collection("Users").document(userEmail);
+            statsRef = g_firestore.collection("Statistics").document(difficultSetting).collection("Users").document(userEmail);
             statsRef.get()
                     .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                         @Override
@@ -649,38 +538,37 @@ public class scienceQuizActivity extends AppCompatActivity {
                                 FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
                                 String userEmail = firebaseUser.getEmail();
                                 checkstoredaverage = snapshot.getDouble("Average Time");
-                                checkstoredTopicAverage = snapshot.getDouble("Science Average");
+                                checkstoredTopicAverage = snapshot.getDouble(topicAverage);
                                 //If there is no Topic Average stored, just add the time for this quiz only to a new field for the Selected Topic
                                 if(checkstoredTopicAverage == null)
                                 {
-                                    g_firestore.collection("Statistics").document("Hard").collection("Users").document(userEmail).update("Science Average", time);
+                                    g_firestore.collection("Statistics").document(difficultSetting).collection("Users").document(userEmail).update(topicAverage, time);
                                 }
                                 //If there is a Topic Average Score stored, then calculate the new average
                                 if(checkstoredTopicAverage != null)
                                 {
                                     calcNewTopicAverage = (time + checkstoredTopicAverage) / 2;
-                                    g_firestore.collection("Statistics").document("Hard").collection("Users").document(userEmail).update("Science Average", calcNewTopicAverage);
+                                    g_firestore.collection("Statistics").document(difficultSetting).collection("Users").document(userEmail).update(topicAverage, calcNewTopicAverage);
                                 }
                                 //Always calculate the overall average  - This field will always be here if the snapshot exists, so no need for conditional null statement
                                 calcNewAverage = (time + checkstoredaverage) / 2;
-                                g_firestore.collection("Statistics").document("Hard").collection("Users").document(userEmail).update("Average Time", calcNewAverage);
+                                g_firestore.collection("Statistics").document(difficultSetting).collection("Users").document(userEmail).update("Average Time", calcNewAverage);
                             }
                             //If email doesn't exist, just add a new document with the name of the currently logged in user
                             if (!snapshot.exists()) {
                                 getUserName();
                                 FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
                                 String userEmail = firebaseUser.getEmail();
-                                //If the score on Firestore is less than the score just achieved, the info gets overridden as it is now the new high score
                                 Map<String, Object> gkstats = new HashMap<>();
                                 gkstats.put("Username", userName);
                                 gkstats.put("Average Time", time);
-                                gkstats.put("Science Average", time);
-                                g_firestore.collection("Statistics").document("Hard").collection("Users").document(userEmail).set(gkstats);
+                                gkstats.put(topicAverage, time);
+                                g_firestore.collection("Statistics").document(difficultSetting).collection("Users").document(userEmail).set(gkstats);
                             }
                         }
                     });
         }
-    }
+
     private void countTimetoAnswerQuestions()
     {
         //Getting the time it takes to answer a question
@@ -712,10 +600,10 @@ public class scienceQuizActivity extends AppCompatActivity {
                                         userName = document.getString("NAME");
                                     }
                                 } else {
-
                                 }
                             }
                         });
     }
+
 
 }

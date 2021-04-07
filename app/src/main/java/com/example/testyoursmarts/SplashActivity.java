@@ -52,12 +52,9 @@ private FirebaseAuth mAuth;
                else
                {
                    Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
-
                    startActivity(intent);
                    SplashActivity.this.finish();
                }
-
-
            }
        }.start();
     }

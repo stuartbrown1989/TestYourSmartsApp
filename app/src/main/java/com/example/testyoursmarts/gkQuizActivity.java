@@ -64,7 +64,7 @@ import static com.example.testyoursmarts.dbQuery.g_catList;
 import static com.example.testyoursmarts.dbQuery.g_question_list;
 import static com.example.testyoursmarts.dbQuery.g_selected_cat_index;
 import static com.example.testyoursmarts.dbQuery.getUserScores;
-import static com.example.testyoursmarts.dbQuery.loadquestions;
+//import static com.example.testyoursmarts.dbQuery.loadquestions;
 import static com.example.testyoursmarts.dbQuery.userScoreList;
 
 public class gkQuizActivity extends AppCompatActivity {
@@ -208,12 +208,12 @@ public class gkQuizActivity extends AppCompatActivity {
         // (Shouldn't be any, but this covers if the back button is pressed and the user comes back to this activity
         g_question_list.clear();
         questionIDs.removeAll(Collections.emptyList());
-
+        getGKEasyQuestions();
         //Retrieving difficulty from Confirm Quiz page and setting appropriate questions
         switch (difficultSetting) {
             case "Easy":
                 //Loading up questions
-               getGKEasyQuestions();
+
                 potentialScore = questionTotal;
                 textViewScore.setText("Score: " + score + "/" + potentialScore);
                 break;
@@ -263,6 +263,8 @@ public class gkQuizActivity extends AppCompatActivity {
 //Functions to get the Easy/Medium/Hard GK Quiz Questions
     private void getGKEasyQuestions()
     {
+        Intent intent = getIntent();
+        String difficultSetting = intent.getStringExtra("Difficulty");
 //Locates and gets the Collection Questions from firestore and designates it to the Questions model class
         Task<QuerySnapshot> easyRef =
         g_firestore.collection("Questions").document("Easy").collection("GK")

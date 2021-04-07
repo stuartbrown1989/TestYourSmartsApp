@@ -35,6 +35,7 @@ public class leaderboardPictureQuiz extends AppCompatActivity {
 
    private TextView userView, scoreDifficultyView;
     public static FirebaseFirestore g_firestore;
+
     private AppBarConfiguration mAppBarConfiguration;
     private BottomNavigationView bottomNavigationView;
     private FrameLayout main_frame;
@@ -102,7 +103,7 @@ public class leaderboardPictureQuiz extends AppCompatActivity {
         for(userScoresModel usr : userScoreList)
         {
             String userName = usr.getUserName();
-            String QuizType = usr.getQuiztype();
+
             int Score = usr.getScore();
             String Difficulty = usr.getDifficulty();
             userinfo =  userinfo +  userName + "\n_________________________________\n";

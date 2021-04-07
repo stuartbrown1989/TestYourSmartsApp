@@ -41,6 +41,7 @@ public class leaderboardTopicQuiz extends AppCompatActivity {
 
     private TextView userView, scoreDifficultyView;
     public static FirebaseFirestore g_firestore;
+
     private String quizType;
     private Spinner spinner;
     private static final String[] Topics = {"Select Topic", "History", "Science", "Sports", "FilmTV", "Geography", "Music"};
@@ -117,7 +118,6 @@ public class leaderboardTopicQuiz extends AppCompatActivity {
 
                 switch(position){
                     case 0:
-
                         break;
                     case 1:
                         userScoreList.clear();

@@ -27,7 +27,7 @@
         <activity android:name=".geographyQuizActivity" />
         <activity android:name=".filmTVQuizActivity" />
         <activity android:name=".sportsQuizActivity" />
-        <activity android:name=".scienceQuizActivity" />
+        <activity android:name=".topicQuizActivity" />
         <activity android:name=".historyQuizActivity" />
         <activity android:name=".headtoheadQuizActivity" />
         <activity android:name=".speedRunQuizActivity" />

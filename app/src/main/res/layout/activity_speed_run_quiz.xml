@@ -87,7 +87,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toTopOf="@id/SR_text_view_headerTimer"
         tools:layout_editor_absoluteY="288dp"
-        android:visibility="invisible"
+        android:visibility="visible"
         />
 
 

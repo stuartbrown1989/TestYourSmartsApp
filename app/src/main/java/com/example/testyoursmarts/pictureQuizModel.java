@@ -35,59 +35,45 @@ public class pictureQuizModel {
     }
 
 
-
     public String getPictureQuestion() {
         return question;
     }
-
     public void setPictureQuestion(String question) {
         this.question = question;
     }
-
     public String getPictureOption1() {
         return option1;
     }
-
     public void setOption1(String option1) {
         this.option1 = option1;
     }
-
     public String getPictureOption2() {
         return option2;
     }
-
     public void setPictureOption2(String option2) {
         this.option2 = option2;
     }
-
     public String getPictureOption3() {
         return option3;
     }
-
     public void setPictureOption3(String option3) {
         this.option3 = option3;
     }
-
     public String getPictureOption4() {
         return option4;
     }
-
     public void setOption4(String option4) {
         this.option4 = option4;
     }
-
     public int getPictureCorrectAnswer() {
         return correctAnswer;
     }
-
     public void setPictureCorrectAnswer(int correctAnswer) {
         this.correctAnswer = correctAnswer;
     }
-
     public String getTheImage() {
         return theImage;
     }
-
     public void setTheImage(String theImage) {
         this.theImage = theImage;
     }

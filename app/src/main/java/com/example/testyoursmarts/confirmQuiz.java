@@ -3,14 +3,10 @@ package com.example.testyoursmarts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.ui.AppBarConfiguration;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Patterns;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
@@ -27,11 +23,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-
-import java.lang.reflect.Array;
 
 public class confirmQuiz extends AppCompatActivity {
 
@@ -114,19 +107,15 @@ public class confirmQuiz extends AppCompatActivity {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
                 switch(position){
                     case 0:
                         difficultySelected.setText("Easy");
-
                         break;
                     case 1:
                         difficultySelected.setText("Medium");
-
                         break;
                     case 2:
                         difficultySelected.setText("Hard");
-                        ;
                         break;
                 }
             }
@@ -136,8 +125,6 @@ public class confirmQuiz extends AppCompatActivity {
 
             }
         });
-
-
 
         idQuiz = findViewById(R.id.text_quizID);
         quizDescription = findViewById(R.id.quizDescription);
@@ -160,7 +147,8 @@ public class confirmQuiz extends AppCompatActivity {
                 //GK QUIZ CHOICE
                 if(idQuiz.getText().toString().equals("General Knowledge Quiz"))
                 {
-                    Intent gkQuizIntent = new Intent (confirmQuiz.this, gkQuizActivity.class);
+                    Intent gkQuizIntent =new Intent (confirmQuiz.this, topicQuizActivity.class);
+                    gkQuizIntent.putExtra("QuizTopic", "GK");
                     if(difficultySelected.getText() == "Easy")
                     {
                         gkQuizIntent.putExtra("Difficulty", "Easy");
@@ -217,7 +205,6 @@ public class confirmQuiz extends AppCompatActivity {
                 //HEAD TO HEAD QUIZ CHOICE
                 if(idQuiz.getText().toString().equals("Head to Head Quiz"))
                 {
-
                     Intent headtoheadQuizIntent = new Intent (confirmQuiz.this, headtoheadQuizActivity.class);
                     if(difficultySelected.getText() == "Easy")
                     {
@@ -236,7 +223,8 @@ public class confirmQuiz extends AppCompatActivity {
                 //HISTORY QUIZ CHOICE
                 if(idQuiz.getText().toString().equals("History Quiz"))
                 {
-                    Intent historyQuizIntent = new Intent (confirmQuiz.this, historyQuizActivity.class);
+                    Intent historyQuizIntent = new Intent (confirmQuiz.this, topicQuizActivity.class);
+                    historyQuizIntent.putExtra("QuizTopic", "History");
                     if(difficultySelected.getText() == "Easy")
                     {
                         historyQuizIntent.putExtra("Difficulty", "Easy");
@@ -255,7 +243,8 @@ public class confirmQuiz extends AppCompatActivity {
                 //SCIENCE QUIZ CHOICE
                 if(idQuiz.getText().toString().equals("Science Quiz"))
                 {
-                    Intent scienceQuizIntent = new Intent (confirmQuiz.this, scienceQuizActivity.class);
+                    Intent scienceQuizIntent = new Intent (confirmQuiz.this, topicQuizActivity.class);
+                    scienceQuizIntent.putExtra("QuizTopic", "Science");
                     if(difficultySelected.getText() == "Easy")
                     {
                         scienceQuizIntent.putExtra("Difficulty", "Easy");
@@ -273,7 +262,8 @@ public class confirmQuiz extends AppCompatActivity {
                 //SPORTS QUIZ CHOICE
                 if(idQuiz.getText().toString().equals("Sports Quiz"))
                 {
-                    Intent sportsQuizIntent = new Intent (confirmQuiz.this, sportsQuizActivity.class);
+                    Intent sportsQuizIntent = new Intent (confirmQuiz.this, topicQuizActivity.class);
+                    sportsQuizIntent.putExtra("QuizTopic", "Sports");
                     if(difficultySelected.getText() == "Easy")
                     {
                         sportsQuizIntent.putExtra("Difficulty", "Easy");
@@ -291,7 +281,8 @@ public class confirmQuiz extends AppCompatActivity {
                 //FILM/TV QUIZ CHOICE
                 if(idQuiz.getText().toString().equals("Film/TV Quiz"))
                 {
-                    Intent filmTVQuizIntent = new Intent (confirmQuiz.this, filmTVQuizActivity.class);
+                    Intent filmTVQuizIntent = new Intent (confirmQuiz.this, topicQuizActivity.class);
+                    filmTVQuizIntent.putExtra("QuizTopic", "FilmTV");
                     if(difficultySelected.getText() == "Easy")
                     {
                         filmTVQuizIntent.putExtra("Difficulty", "Easy");
@@ -310,7 +301,8 @@ public class confirmQuiz extends AppCompatActivity {
                 if(idQuiz.getText().toString().equals("Geography Quiz"))
                 {
 
-                    Intent geographyQuizIntent = new Intent (confirmQuiz.this, geographyQuizActivity.class);
+                    Intent geographyQuizIntent = new Intent (confirmQuiz.this, topicQuizActivity.class);
+                    geographyQuizIntent.putExtra("QuizTopic", "Geography");
                     if(difficultySelected.getText() == "Easy")
                     {
                         geographyQuizIntent.putExtra("Difficulty", "Easy");
@@ -328,7 +320,8 @@ public class confirmQuiz extends AppCompatActivity {
                 //MUSIC QUIZ CHOICE
                 if(idQuiz.getText().toString().equals("Music Quiz"))
                 {
-                    Intent musicQuizIntent = new Intent (confirmQuiz.this, musicQuizActivity.class);
+                    Intent musicQuizIntent = new Intent (confirmQuiz.this, topicQuizActivity.class);
+                    musicQuizIntent .putExtra("QuizTopic", "Music");
                     if(difficultySelected.getText() == "Easy")
                     {
                         musicQuizIntent .putExtra("Difficulty", "Easy");

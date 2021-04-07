@@ -175,20 +175,20 @@ public class headtoheadQuizActivity extends AppCompatActivity {
         g_question_list.clear();
         questionIDs.removeAll(Collections.emptyList());
 
-        //Retrieving difficulty from Confirm Quiz page and setting appropriate questions
+        //Get all Questions
+        getHeadtoHeadQuestions();
 
+        //Based on difficutly will determine the running total of the players scores
         switch (difficultSetting) {
             case "Easy":
                 //Loading up questions
                 getUserName();
-                getEasyHeadtoHeadQuestions();
                 potentialScore = questionTotal/2;
                 textViewScore.setText("Score: " + userScore + "/" + potentialScore);
                 textViewGuestScore.setText("Score: " + guestScore + "/" + potentialScore);
                 break;
             case "Medium":
                 getUserName();
-                getMediumHeadtoHeadQuestions();
                 potentialScore = questionTotal;
                 textViewScore.setText("Score: " + userScore + "/" + potentialScore);
                 textViewGuestScore.setText("Score: " + guestScore + "/" + potentialScore);
@@ -196,7 +196,6 @@ public class headtoheadQuizActivity extends AppCompatActivity {
                 break;
             case "Hard":
                 getUserName();
-                getHardHeadtoHeadQuestions();
                 potentialScore = (questionTotal/2) * 3;
                 textViewScore.setText("Score: " + userScore + "/" + potentialScore);
                 textViewGuestScore.setText("Score: " + guestScore + "/" + potentialScore);
@@ -225,13 +224,15 @@ public class headtoheadQuizActivity extends AppCompatActivity {
         });
     }
 
-    //This function goes through all the collections under the document Easy and fills the array list
-    private void getEasyHeadtoHeadQuestions()
+    //This function goes through all the collections under the document named after the Difficulty Settting and fills the array list
+    private void getHeadtoHeadQuestions()
     {
 //Locates and gets the Collection Questions from firestore and designates it to the Questions model class
-
-
-        g_firestore.collection("Questions").document("Easy").collection("GK")
+        Intent intent = getIntent();
+        //Getting the difficulty level set from the confirm quiz page
+        String difficultSetting = intent.getStringExtra("Difficulty");
+        //Gets all GK Questions - Based on difficulty
+        g_firestore.collection("Questions").document(difficultSetting).collection("GK")
                 .get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
@@ -250,7 +251,8 @@ public class headtoheadQuizActivity extends AppCompatActivity {
                         }
                     }
                 });
-        g_firestore.collection("Questions").document("Easy").collection("History")
+        //Gets all History Questions - Based on difficulty
+        g_firestore.collection("Questions").document(difficultSetting).collection("History")
                 .get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
@@ -269,8 +271,8 @@ public class headtoheadQuizActivity extends AppCompatActivity {
                         }
                     }
                 });
-
-        g_firestore.collection("Questions").document("Easy").collection("FilmTV")
+        //Gets all FilmTV Questions - Based on difficulty
+        g_firestore.collection("Questions").document(difficultSetting).collection("FilmTV")
                 .get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
@@ -289,8 +291,8 @@ public class headtoheadQuizActivity extends AppCompatActivity {
                         }
                     }
                 });
-
-        g_firestore.collection("Questions").document("Easy").collection("Geography")
+        //Gets all Geography Questions - Based on difficulty
+        g_firestore.collection("Questions").document(difficultSetting).collection("Geography")
                 .get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
@@ -309,8 +311,8 @@ public class headtoheadQuizActivity extends AppCompatActivity {
                         }
                     }
                 });
-
-        g_firestore.collection("Questions").document("Easy").collection("Music")
+        //Gets all Music Questions - Based on difficulty
+        g_firestore.collection("Questions").document(difficultSetting).collection("Music")
                 .get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
@@ -329,8 +331,8 @@ public class headtoheadQuizActivity extends AppCompatActivity {
                         }
                     }
                 });
-
-        g_firestore.collection("Questions").document("Easy").collection("Science")
+        //Gets all Science Questions - Based on difficulty
+        g_firestore.collection("Questions").document(difficultSetting).collection("Science")
                 .get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
@@ -349,299 +351,8 @@ public class headtoheadQuizActivity extends AppCompatActivity {
                         }
                     }
                 });
-
-        g_firestore.collection("Questions").document("Easy").collection("Sports")
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        //Get collection info and store it to the list
-                        for (DocumentSnapshot doc : queryDocumentSnapshots) {
-                            g_question_list.add(new questionsModel(
-                                    doc.getString("Question"),
-                                    doc.getString("Option_a"),
-                                    doc.getString("Option_b"),
-                                    doc.getString("Option_c"),
-                                    doc.getString("Option_d"),
-                                    Objects.requireNonNull(doc.getLong("Answer")).intValue()
-                            ));
-                            Collections.shuffle(g_question_list);
-                        }
-                        getUserName();
-                        setQuestion();
-                        startTimer();
-                    }
-                });
-
-    }
-
-    private void getMediumHeadtoHeadQuestions()
-    {
-//Locates and gets the Collection Questions from firestore and designates it to the Questions model class
-        g_firestore.collection("Questions").document("Medium").collection("GK")
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        //Get collection info and store it to the list
-                        for (DocumentSnapshot doc : queryDocumentSnapshots) {
-                            g_question_list.add(new questionsModel(
-                                    doc.getString("Question"),
-                                    doc.getString("Option_a"),
-                                    doc.getString("Option_b"),
-                                    doc.getString("Option_c"),
-                                    doc.getString("Option_d"),
-                                    Objects.requireNonNull(doc.getLong("Answer")).intValue()
-                            ));
-                            Collections.shuffle(g_question_list);
-                        }
-                    }
-                });
-
-        g_firestore.collection("Questions").document("Medium").collection("History")
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        //Get collection info and store it to the list
-                        for (DocumentSnapshot doc : queryDocumentSnapshots) {
-                            g_question_list.add(new questionsModel(
-                                    doc.getString("Question"),
-                                    doc.getString("Option_a"),
-                                    doc.getString("Option_b"),
-                                    doc.getString("Option_c"),
-                                    doc.getString("Option_d"),
-                                    Objects.requireNonNull(doc.getLong("Answer")).intValue()
-                            ));
-                            Collections.shuffle(g_question_list);
-                        }
-                    }
-                });
-
-        g_firestore.collection("Questions").document("Medium").collection("FilmTV")
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        //Get collection info and store it to the list
-                        for (DocumentSnapshot doc : queryDocumentSnapshots) {
-                            g_question_list.add(new questionsModel(
-                                    doc.getString("Question"),
-                                    doc.getString("Option_a"),
-                                    doc.getString("Option_b"),
-                                    doc.getString("Option_c"),
-                                    doc.getString("Option_d"),
-                                    Objects.requireNonNull(doc.getLong("Answer")).intValue()
-                            ));
-                            Collections.shuffle(g_question_list);
-                        }
-                    }
-                });
-
-        g_firestore.collection("Questions").document("Medium").collection("Geography")
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        //Get collection info and store it to the list
-                        for (DocumentSnapshot doc : queryDocumentSnapshots) {
-                            g_question_list.add(new questionsModel(
-                                    doc.getString("Question"),
-                                    doc.getString("Option_a"),
-                                    doc.getString("Option_b"),
-                                    doc.getString("Option_c"),
-                                    doc.getString("Option_d"),
-                                    Objects.requireNonNull(doc.getLong("Answer")).intValue()
-                            ));
-                            Collections.shuffle(g_question_list);
-                        }
-                    }
-                });
-
-        g_firestore.collection("Questions").document("Medium").collection("Music")
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        //Get collection info and store it to the list
-                        for (DocumentSnapshot doc : queryDocumentSnapshots) {
-                            g_question_list.add(new questionsModel(
-                                    doc.getString("Question"),
-                                    doc.getString("Option_a"),
-                                    doc.getString("Option_b"),
-                                    doc.getString("Option_c"),
-                                    doc.getString("Option_d"),
-                                    Objects.requireNonNull(doc.getLong("Answer")).intValue()
-                            ));
-                            Collections.shuffle(g_question_list);
-                        }
-                    }
-                });
-
-        g_firestore.collection("Questions").document("Medium").collection("Science")
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        //Get collection info and store it to the list
-                        for (DocumentSnapshot doc : queryDocumentSnapshots) {
-                            g_question_list.add(new questionsModel(
-                                    doc.getString("Question"),
-                                    doc.getString("Option_a"),
-                                    doc.getString("Option_b"),
-                                    doc.getString("Option_c"),
-                                    doc.getString("Option_d"),
-                                    Objects.requireNonNull(doc.getLong("Answer")).intValue()
-                            ));
-                            Collections.shuffle(g_question_list);
-                        }
-                    }
-                });
-
-        g_firestore.collection("Questions").document("Medium").collection("Sports")
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        //Get collection info and store it to the list
-                        for (DocumentSnapshot doc : queryDocumentSnapshots) {
-                            g_question_list.add(new questionsModel(
-                                    doc.getString("Question"),
-                                    doc.getString("Option_a"),
-                                    doc.getString("Option_b"),
-                                    doc.getString("Option_c"),
-                                    doc.getString("Option_d"),
-                                    Objects.requireNonNull(doc.getLong("Answer")).intValue()
-                            ));
-                            Collections.shuffle(g_question_list);
-                        }
-                        getUserName();
-                        setQuestion();
-                        startTimer();
-                    }
-                });
-
-    }
-    //This function goes through all the collections under the document Hard and fills the array list
-    private void getHardHeadtoHeadQuestions()
-    {
-//Locates and gets the Collection Questions from firestore and designates it to the Questions model class
-
-        g_firestore.collection("Questions").document("Hard").collection("GK")
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        //Get collection info and store it to the list
-                        for (DocumentSnapshot doc : queryDocumentSnapshots) {
-                            g_question_list.add(new questionsModel(
-                                    doc.getString("Question"),
-                                    doc.getString("Option_a"),
-                                    doc.getString("Option_b"),
-                                    doc.getString("Option_c"),
-                                    doc.getString("Option_d"),
-                                    Objects.requireNonNull(doc.getLong("Answer")).intValue()
-                            ));
-                        }
-                    }
-                });
-
-        g_firestore.collection("Questions").document("Hard").collection("History")
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        //Get collection info and store it to the list
-                        for (DocumentSnapshot doc : queryDocumentSnapshots) {
-                            g_question_list.add(new questionsModel(
-                                    doc.getString("Question"),
-                                    doc.getString("Option_a"),
-                                    doc.getString("Option_b"),
-                                    doc.getString("Option_c"),
-                                    doc.getString("Option_d"),
-                                    Objects.requireNonNull(doc.getLong("Answer")).intValue()
-                            ));
-                        }
-                    }
-                });
-
-        g_firestore.collection("Questions").document("Hard").collection("FilmTV")
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        //Get collection info and store it to the list
-                        for (DocumentSnapshot doc : queryDocumentSnapshots) {
-                            g_question_list.add(new questionsModel(
-                                    doc.getString("Question"),
-                                    doc.getString("Option_a"),
-                                    doc.getString("Option_b"),
-                                    doc.getString("Option_c"),
-                                    doc.getString("Option_d"),
-                                    Objects.requireNonNull(doc.getLong("Answer")).intValue()
-                            ));
-                        }
-                    }
-                });
-
-        g_firestore.collection("Questions").document("Hard").collection("Geography")
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        //Get collection info and store it to the list
-                        for (DocumentSnapshot doc : queryDocumentSnapshots) {
-                            g_question_list.add(new questionsModel(
-                                    doc.getString("Question"),
-                                    doc.getString("Option_a"),
-                                    doc.getString("Option_b"),
-                                    doc.getString("Option_c"),
-                                    doc.getString("Option_d"),
-                                    Objects.requireNonNull(doc.getLong("Answer")).intValue()
-                            ));
-                        }
-                    }
-                });
-
-        g_firestore.collection("Questions").document("Hard").collection("Music")
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        //Get collection info and store it to the list
-                        for (DocumentSnapshot doc : queryDocumentSnapshots) {
-                            g_question_list.add(new questionsModel(
-                                    doc.getString("Question"),
-                                    doc.getString("Option_a"),
-                                    doc.getString("Option_b"),
-                                    doc.getString("Option_c"),
-                                    doc.getString("Option_d"),
-                                    Objects.requireNonNull(doc.getLong("Answer")).intValue()
-                            ));
-                        }
-                    }
-                });
-
-        g_firestore.collection("Questions").document("Hard").collection("Science")
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        //Get collection info and store it to the list
-                        for (DocumentSnapshot doc : queryDocumentSnapshots) {
-                            g_question_list.add(new questionsModel(
-                                    doc.getString("Question"),
-                                    doc.getString("Option_a"),
-                                    doc.getString("Option_b"),
-                                    doc.getString("Option_c"),
-                                    doc.getString("Option_d"),
-                                    Objects.requireNonNull(doc.getLong("Answer")).intValue()
-                            ));
-                        }
-                    }
-                });
-
-        g_firestore.collection("Questions").document("Hard").collection("Sports")
+        //Gets all Sports Questions - Based on difficulty
+        g_firestore.collection("Questions").document(difficultSetting).collection("Sports")
                 .get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
@@ -668,7 +379,6 @@ public class headtoheadQuizActivity extends AppCompatActivity {
     //Function to set the question based on the getQuestions functions that were grabbed from firestore
     private void setQuestion()
     {
-
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         String UserEmail = firebaseUser.getEmail();
         getUserName();
